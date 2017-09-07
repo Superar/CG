@@ -6,6 +6,7 @@ import org.lwjgl.opengl.*;
 
 import java.nio.DoubleBuffer;
 
+import static java.lang.Math.abs;
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -50,7 +51,6 @@ public class BresenhamAlgorithm
         // Termina o GLFW
         glfwTerminate();
         glfwSetErrorCallback(null).free();
-
     }
 
     private void init()
@@ -139,22 +139,25 @@ public class BresenhamAlgorithm
                 DoubleBuffer ypos = BufferUtils.createDoubleBuffer(1);
                 glfwGetCursorPos(window, xpos, ypos);
 
-                glColor3f(LINE_COLOR_R, LINE_COLOR_G, LINE_COLOR_B);
-                glBegin(GL_LINES);
-                glVertex2i((int) initialMouseXPos, (int) initialMouseYPos);
-                glVertex2f((int) xpos.get(0), (int) ypos.get(0));
-                glEnd();
+//                glColor3f(LINE_COLOR_R, LINE_COLOR_G, LINE_COLOR_B);
+//                glBegin(GL_LINES);
+//                glVertex2i((int) initialMouseXPos, (int) initialMouseYPos);
+//                glVertex2f((int) xpos.get(0), (int) ypos.get(0));
+//                glEnd();
+                bresenhamX((int) initialMouseXPos, (int) initialMouseYPos, (int) xpos.get(0), (int) ypos.get(0));
             }
             else if ( mouseAlreadyPressed )
             {
                 /* Enquanto o mouse estiver solto, desenha linha a partir
                 * da posicao inicial ate a posicao final salva */
 
-                glColor3f(LINE_COLOR_R, LINE_COLOR_G, LINE_COLOR_B);
-                glBegin(GL_LINES);
-                glVertex2i((int) initialMouseXPos, (int) initialMouseYPos);
-                glVertex2f((int) finalMouseXpos, (int) finalMouseYpos);
-                glEnd();
+//                glColor3f(LINE_COLOR_R, LINE_COLOR_G, LINE_COLOR_B);
+//                glBegin(GL_LINES);
+//                glVertex2i((int) initialMouseXPos, (int) initialMouseYPos);
+//                glVertex2f((int) finalMouseXpos, (int) finalMouseYpos);
+//                glEnd();
+                bresenhamX((int) initialMouseXPos, (int) initialMouseYPos, (int) finalMouseXpos, (int) finalMouseYpos);
+
             }
 
             glfwSwapBuffers(window); // Desenha o que ta no buffer na tela
@@ -162,6 +165,52 @@ public class BresenhamAlgorithm
             glfwPollEvents(); // Registra os eventos
         }
     }
+
+    public void bresenhamX(int xInicial, int yInicial, int xFinal, int yFinal) {
+
+        int dx = xFinal - xInicial;
+        int dy = yFinal - yInicial;
+
+        int d = 2 * dy - dx;
+
+        int incE = 2 * dy;
+        int incNE = 2 * (dy - dx);
+
+        int incY = yInicial < yFinal ? 1 : -1;
+        int incX = xInicial < xFinal ? 1 : -1;
+
+        for(int x = xInicial, y = yInicial; x < xFinal; x = x + incX){
+            drawPoint(x,y);
+
+            if(d <= 0){
+                d = d + incE;
+            } else {
+                d = d + incNE;
+                y = y + incY;
+            }
+        }
+    }
+
+//    public void bresenhamY(int xInicial, int yInicial, int xFinal, int yFinal) {
+//        int dx = xFinal - xInicial;
+//        int dy = yFinal - yInicial;
+//
+//        int d = 2 * dy - dx;
+//
+//        int incE = 2 * dy;
+//        int incNE = 2 * (dy - dx);
+//
+//        for(int x = xInicial, y = yInicial; x < xFinal; x = x + 1){
+//            drawPoint(x,y);
+//
+//            if(d <= 0){
+//                d = d + incE;
+//            } else {
+//                d = d + incNE;
+//                y = y + 1;
+//            }
+//        }
+//    }
 
     private void drawPoint(int x, int y)
     {
