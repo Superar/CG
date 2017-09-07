@@ -1,7 +1,10 @@
 package bresenham;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
+
+import java.nio.DoubleBuffer;
 
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
@@ -69,6 +72,17 @@ public class BresenhamAlgorithm
                 glfwSetWindowShouldClose(window, true);
         });
 
+        glfwSetMouseButtonCallback(window, (window, button, action, mods) ->
+        {
+            if ( button == GLFW_MOUSE_BUTTON_1 && action == GLFW_PRESS )
+            {
+                DoubleBuffer xpos = BufferUtils.createDoubleBuffer(1);
+                DoubleBuffer ypos = BufferUtils.createDoubleBuffer(1);
+                glfwGetCursorPos(window, xpos, ypos);
+                System.out.println("Cursor em: (" + xpos.get(0) + ", " + ypos.get(0) + ")");
+            }
+        });
+
         // Resolucao do monitor
         GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
@@ -86,7 +100,7 @@ public class BresenhamAlgorithm
     {
         GL.createCapabilities();
 
-        glOrtho(0.0f, LARGURA, 0.0f, ALTURA, 0.0f, 1.0f); // Projecao para usar coordenadas igual em plano cartesiano
+        glOrtho(0.0f, LARGURA, ALTURA, 0.0f, 0.0f, 1.0f); // Projecao para usar coordenadas igual em plano cartesiano
         glClearColor(BG_COLOR_R, BG_COLOR_G, BG_COLOR_B, 0.0f); // Qual a cor que ele usa para limpar o framebuffer
 
         while ( !glfwWindowShouldClose(window) )
