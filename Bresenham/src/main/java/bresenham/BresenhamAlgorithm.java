@@ -30,6 +30,14 @@ public class BresenhamAlgorithm
     private static final float LINE_COLOR_G = 1.0f;
     private static final float LINE_COLOR_B = 1.0f;
 
+    // Estados para eventos
+    private boolean mouseDown = false;
+    private boolean mouseAlreadyPressed = false;
+    private double initialMouseXPos;
+    private double initialMouseYPos;
+    private double finalMouseXpos;
+    private double finalMouseYpos;
+
     private void run()
     {
         init();
@@ -74,12 +82,27 @@ public class BresenhamAlgorithm
 
         glfwSetMouseButtonCallback(window, (window, button, action, mods) ->
         {
-            if ( button == GLFW_MOUSE_BUTTON_1 && action == GLFW_PRESS )
+            if ( button == GLFW_MOUSE_BUTTON_1)
             {
                 DoubleBuffer xpos = BufferUtils.createDoubleBuffer(1);
                 DoubleBuffer ypos = BufferUtils.createDoubleBuffer(1);
                 glfwGetCursorPos(window, xpos, ypos);
-                System.out.println("Cursor em: (" + xpos.get(0) + ", " + ypos.get(0) + ")");
+
+                if ( action == GLFW_PRESS ) // Se o mouse for apertado, salva como posicao inicial
+                {
+                    mouseDown = true;
+                    mouseAlreadyPressed = true;
+
+                    initialMouseXPos = xpos.get(0);
+                    initialMouseYPos = ypos.get(0);
+                }
+                else if ( action == GLFW_RELEASE ) // Se o mouse for solto, salva como posicao final
+                {
+                    mouseDown = false;
+
+                    finalMouseXpos = xpos.get(0);
+                    finalMouseYpos = ypos.get(0);
+                }
             }
         });
 
@@ -107,9 +130,33 @@ public class BresenhamAlgorithm
         {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Limpa o frame buffer
 
-            drawPoint(20, 20);
-            drawPoint(21, 20);
-            drawPoint(560, 320);
+            if ( mouseDown )
+            {
+                /* Enquanto o mouse e apertado, desenha linha a partir da posicao inicial ate
+                 * a posicao atual do ponteiro */
+
+                DoubleBuffer xpos = BufferUtils.createDoubleBuffer(1);
+                DoubleBuffer ypos = BufferUtils.createDoubleBuffer(1);
+                glfwGetCursorPos(window, xpos, ypos);
+
+                glColor3f(LINE_COLOR_R, LINE_COLOR_G, LINE_COLOR_B);
+                glBegin(GL_LINES);
+                glVertex2i((int) initialMouseXPos, (int) initialMouseYPos);
+                glVertex2f((int) xpos.get(0), (int) ypos.get(0));
+                glEnd();
+            }
+            else if ( mouseAlreadyPressed )
+            {
+                /* Enquanto o mouse estiver solto, desenha linha a partir
+                * da posicao inicial ate a posicao final salva */
+
+                glColor3f(LINE_COLOR_R, LINE_COLOR_G, LINE_COLOR_B);
+                glBegin(GL_LINES);
+                glVertex2i((int) initialMouseXPos, (int) initialMouseYPos);
+                glVertex2f((int) finalMouseXpos, (int) finalMouseYpos);
+                glEnd();
+            }
+
             glfwSwapBuffers(window); // Desenha o que ta no buffer na tela
 
             glfwPollEvents(); // Registra os eventos
