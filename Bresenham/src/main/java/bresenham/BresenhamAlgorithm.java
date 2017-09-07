@@ -17,6 +17,16 @@ public class BresenhamAlgorithm
     private static final int ALTURA = 420;
     private static final String TITULO = "Algoritmo de Bresenham";
 
+    // Cor do fundo
+    private static final float BG_COLOR_R = 0.0f;
+    private static final float BG_COLOR_G = 0.0f;
+    private static final float BG_COLOR_B = 0.0f;
+
+    // Cor da linha
+    private static final float LINE_COLOR_R = 1.0f;
+    private static final float LINE_COLOR_G = 1.0f;
+    private static final float LINE_COLOR_B = 1.0f;
+
     private void run()
     {
         init();
@@ -75,14 +85,30 @@ public class BresenhamAlgorithm
     private void loop()
     {
         GL.createCapabilities();
-        glClearColor(1.0f, 0.0f, 0.0f, 0.0f); // Qual a cor que ele usa para limpar o framebuffer
+
+        glOrtho(0.0f, LARGURA, 0.0f, ALTURA, 0.0f, 1.0f); // Projecao para usar coordenadas igual em plano cartesiano
+        glClearColor(BG_COLOR_R, BG_COLOR_G, BG_COLOR_B, 0.0f); // Qual a cor que ele usa para limpar o framebuffer
 
         while ( !glfwWindowShouldClose(window) )
         {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Limpa o frame buffer
+
+            drawPoint(20, 20);
+            drawPoint(21, 20);
+            drawPoint(560, 320);
             glfwSwapBuffers(window); // Desenha o que ta no buffer na tela
+
             glfwPollEvents(); // Registra os eventos
         }
+    }
+
+    private void drawPoint(int x, int y)
+    {
+        glPointSize(1);
+        glColor3f(LINE_COLOR_R, LINE_COLOR_G, LINE_COLOR_B);
+        glBegin(GL_POINTS);
+        glVertex2i(x, y);
+        glEnd();
     }
 
     public static void main(String[] args)
