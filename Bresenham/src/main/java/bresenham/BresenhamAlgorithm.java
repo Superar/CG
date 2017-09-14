@@ -249,6 +249,62 @@ public class BresenhamAlgorithm {
         }
     }
 
+    private void bresenhamAlgorithm(int inicioPrincipal, int inicioSecundario, int fimPrincipal, int fimSecundario, boolean swap)
+    {
+        int dPrincipal = inicioPrincipal - fimPrincipal;
+        int dSecundario = inicioSecundario - fimSecundario;
+
+        int inc = 1;
+
+        if (dPrincipal < 0)
+        {
+            int aux = fimPrincipal;
+            fimPrincipal = fimPrincipal + dPrincipal;
+            inicioPrincipal = aux;
+
+            if (dSecundario < 0)
+            {
+                fimSecundario = fimSecundario + dSecundario;
+                dSecundario = -dSecundario;
+                dPrincipal = -dPrincipal;
+            }
+            else
+            {
+                fimSecundario = inicioSecundario;
+                inc = -1;
+                dPrincipal = -dPrincipal;
+            }
+        }
+        else
+        {
+            if (dSecundario < 0)
+            {
+                dSecundario = -dSecundario;
+                inc = -1;
+            }
+        }
+
+        int d = 2 * dSecundario - dPrincipal;
+
+        int incE = 2 * dSecundario;
+        int incNE = 2 * (dSecundario - dPrincipal);
+
+
+        for (int principal = fimPrincipal, secundario = fimSecundario; principal < inicioPrincipal; principal = principal + 1)
+        {
+            if ( swap )
+                drawPoint(secundario, principal);
+            else
+                drawPoint(principal, secundario);
+            if (d <= 0) {
+                d = d + incE;
+            } else {
+                d = d + incNE;
+                secundario = secundario + inc;
+            }
+        }
+    }
+
     private void drawPoint(int x, int y) {
         glPointSize(1);
         glColor3f(LINE_COLOR_R, LINE_COLOR_G, LINE_COLOR_B);
