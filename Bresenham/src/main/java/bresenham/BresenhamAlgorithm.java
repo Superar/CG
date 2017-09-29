@@ -143,109 +143,14 @@ public class BresenhamAlgorithm {
         }
     }
 
-    public void bresenham(int x0, int y0, int x1, int y1) {
+    private void bresenham(int x0, int y0, int x1, int y1) {
         int dx = x1 - x0;
         int dy = y1 - y0;
 
-        if(abs(dx)>abs(dy)){
-            bresenhamX(x0,y0,x1,y1);
+        if (abs(dx) > abs(dy)) {
+            bresenhamAlgorithm(x0, y0, x1, y1, false);
         } else {
-            bresenhamY(x0,y0,x1,y1);
-        }
-    }
-
-    public void bresenhamX(int x0, int y0, int x1, int y1) {
-
-        int dx = x1 - x0;
-        int dy = y1 - y0;
-
-        int incY = 1;
-
-        if (dx < 0) {
-            int aux = x0;
-            x0 = x0 + dx;
-            x1 = aux;
-
-            if (dy < 0) {
-                y0 = y0 + dy;
-                dy = -dy;
-                dx = -dx;
-            } else {
-                y0 = y1;
-                incY = -1;
-                dx = -dx;
-            }
-        } else {
-
-            if (dy < 0) {
-                y1 = y0 + dy;
-                dy = -dy;
-                incY = -1;
-            }
-        }
-
-        int d = 2 * dy - dx;
-
-        int incE = 2 * dy;
-        int incNE = 2 * (dy - dx);
-
-
-        for (int x = x0, y = y0; x < x1; x = x + 1) {
-            drawPoint(x, y);
-            if (d <= 0) {
-                d = d + incE;
-            } else {
-                d = d + incNE;
-                y = y + incY;
-            }
-        }
-    }
-
-    public void bresenhamY(int x0, int y0, int x1, int y1) {
-
-        int dx = x1 - x0;
-        int dy = y1 - y0;
-
-        int incX = 1;
-
-        if (dy < 0) {
-            int aux = y0;
-            y0 = y0 + dy;
-            y1 = aux;
-
-            if (dx < 0) {
-                aux = y0;
-                x0 = x0 + dx;
-                dx = -dx;
-                dy = -dy;
-            } else {
-                x0 = x1;
-                incX = -1;
-                dy = -dy;
-            }
-        } else {
-
-            if (dx < 0) {
-                x1 = x0 + dx;
-                dx = -dx;
-                incX = -1;
-            }
-        }
-
-        int d = 2 * dx - dy;
-
-        int incE = 2 * dx;
-        int incNE = 2 * (dx - dy);
-
-
-        for (int x = x0, y = y0; y < y1; y = y + 1) {
-            drawPoint(x, y);
-            if (d <= 0) {
-                d = d + incE;
-            } else {
-                d = d + incNE;
-                x = x + incX;
-            }
+            bresenhamAlgorithm(y0, x0, y1, x1, true);
         }
     }
 
@@ -292,7 +197,7 @@ public class BresenhamAlgorithm {
 
         for (int principal = fimPrincipal, secundario = fimSecundario; principal < inicioPrincipal; principal = principal + 1)
         {
-            if ( swap )
+            if (swap)
                 drawPoint(secundario, principal);
             else
                 drawPoint(principal, secundario);
