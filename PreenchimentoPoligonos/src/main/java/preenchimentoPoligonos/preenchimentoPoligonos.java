@@ -29,12 +29,13 @@ public class preenchimentoPoligonos
     private static final float LINE_COLOR_G = 1.0f;
     private static final float LINE_COLOR_B = 1.0f;
 
-    // Parametros
+    // Preenchimento de poligono
     private static final int MAX_POINTS = 1000;
     private int[] x;
     private int[] y;
     private int count; // Numero de pontos pressionados
     private boolean opened; // Poligono ja esta fechado
+    private int openedInt;
 
     private void run() {
         init();
@@ -77,27 +78,31 @@ public class preenchimentoPoligonos
             if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
                 glfwSetWindowShouldClose(window, true);
             // Tecla P fecha o poligono
-            if (key == GLFW_KEY_P && opened)
+            if (key == GLFW_KEY_SPACE && opened)
             {
                 x[count] = x[0];
                 y[count] = y[0];
                 count++;
                 opened=false;
+                openedInt = 0;
             }
         });
 
         // Registra pontos para desenhar o poligono
         glfwSetMouseButtonCallback(window, (window, button, action, mods) ->
         {
-            if (button == GLFW_MOUSE_BUTTON_1 && action == GLFW_PRESS && opened)
+            if (button == GLFW_MOUSE_BUTTON_1 && opened)
             {
                 DoubleBuffer xpos = BufferUtils.createDoubleBuffer(1);
                 DoubleBuffer ypos = BufferUtils.createDoubleBuffer(1);
                 glfwGetCursorPos(window, xpos, ypos);
 
-                x[count] = (int)xpos.get(0);
-                y[count] = (int)ypos.get(0);
-                count++;
+                if (action == GLFW_RELEASE)
+                {
+                    x[count] = (int)xpos.get(0);
+                    y[count] = (int)ypos.get(0);
+                    count++;
+                }
             }
         });
 
@@ -118,6 +123,7 @@ public class preenchimentoPoligonos
         y = new int[MAX_POINTS];
         count = 0;
         opened = true;
+        openedInt = 1;
     }
 
     private void loop() {
@@ -125,13 +131,21 @@ public class preenchimentoPoligonos
 
         glOrtho(0.0f, LARGURA, ALTURA, 0.0f, 0.0f, 1.0f); // Projecao para usar coordenadas igual em plano cartesiano
         glClearColor(BG_COLOR_R, BG_COLOR_G, BG_COLOR_B, 0.0f); // Qual a cor que ele usa para limpar o framebuffer
+        glColor3f(LINE_COLOR_R, LINE_COLOR_G, LINE_COLOR_B);
 
-        while (!glfwWindowShouldClose(window)) {
+        while (!glfwWindowShouldClose(window))
+        {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Limpa o frame buffer
 
-            glColor3f(LINE_COLOR_R, LINE_COLOR_G, LINE_COLOR_B);
+            // Salva posicao atual do mouse para desenhar linha enquanto seleciona proximo ponto
+            DoubleBuffer xpos = BufferUtils.createDoubleBuffer(1);
+            DoubleBuffer ypos = BufferUtils.createDoubleBuffer(1);
+            glfwGetCursorPos(window, xpos, ypos);
+            x[count] = (int) xpos.get(0);
+            y[count] = (int) ypos.get(0);
+
             // Desenha poligono
-            for (int i = 1; i < count; i++)
+            for (int i = 1; i < count + openedInt; i++)
             {
                 glBegin(GL_LINES);
                 glVertex2i(x[i - 1], y[i - 1]);
