@@ -1,2 +1,3 @@
-# CG
-Repositório de trabalhos para a disciplina de Computação Gráfica e Multimídia
+# CG - Implemntação do Algoritmo de Bresenham
+Felipe Sampaio de Souza, 619523
+Marcio Lima Inácio, 587265
