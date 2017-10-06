@@ -91,7 +91,7 @@ public class preenchimentoPoligonos
         // Registra pontos para desenhar o poligono
         glfwSetMouseButtonCallback(window, (window, button, action, mods) ->
         {
-            if (button == GLFW_MOUSE_BUTTON_1 && opened)
+            if (button == GLFW_MOUSE_BUTTON_1)
             {
                 DoubleBuffer xpos = BufferUtils.createDoubleBuffer(1);
                 DoubleBuffer ypos = BufferUtils.createDoubleBuffer(1);
@@ -99,6 +99,13 @@ public class preenchimentoPoligonos
 
                 if (action == GLFW_RELEASE)
                 {
+                    if (!opened)
+                    {
+                        opened = true;
+                        openedInt = 1;
+                        count = 0;
+                    }
+
                     x[count] = (int)xpos.get(0);
                     y[count] = (int)ypos.get(0);
                     count++;
