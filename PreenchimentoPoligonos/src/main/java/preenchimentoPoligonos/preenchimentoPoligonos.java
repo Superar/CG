@@ -68,8 +68,21 @@ public class preenchimentoPoligonos
         }
 
         // Tratamento do redimensionamento da tela
-        glfwSetWindowSizeCallback(window, (window, width, height) ->
-                glViewport(0, 0, width, height));
+        glfwSetFramebufferSizeCallback(window, (long window, int width, int height) ->
+        {
+            glViewport(0, 0, width, height);
+            glMatrixMode(GL_PROJECTION);
+            glLoadIdentity();
+            glPushMatrix();
+            glOrtho(0.0f, width, height, 0.0f, 0.0f, 0.0f);
+
+            glMatrixMode(GL_MODELVIEW);
+            glLoadIdentity();
+            glPushMatrix();
+            glRotatef(-180.0f, 1.0f, 0.0f, 0.0f);
+            glScalef(2.0f/width, 2.0f/height, 1.0f);
+            glTranslatef(-width/2.0f, -height/2.0f, 0.0f);
+        });
 
         // Criacao do registro de pressionamento de teclas
         glfwSetKeyCallback(window, (window, key, scancode, action, mods) ->
