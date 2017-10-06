@@ -131,7 +131,8 @@ public class preenchimentoPoligonos
 
         glOrtho(0.0f, LARGURA, ALTURA, 0.0f, 0.0f, 1.0f); // Projecao para usar coordenadas igual em plano cartesiano
         glClearColor(BG_COLOR_R, BG_COLOR_G, BG_COLOR_B, 0.0f); // Qual a cor que ele usa para limpar o framebuffer
-        glColor3f(LINE_COLOR_R, LINE_COLOR_G, LINE_COLOR_B);
+
+        bresenhamLineDrawer lineDrawer = new bresenhamLineDrawer(LINE_COLOR_R, LINE_COLOR_G, LINE_COLOR_B);
 
         while (!glfwWindowShouldClose(window))
         {
@@ -147,10 +148,7 @@ public class preenchimentoPoligonos
             // Desenha poligono
             for (int i = 1; i < count + openedInt; i++)
             {
-                glBegin(GL_LINES);
-                glVertex2i(x[i - 1], y[i - 1]);
-                glVertex2i(x[i], y[i]);
-                glEnd();
+                lineDrawer.drawLine(x[i-1], y[i-1], x[i], y[i]);
             }
 
             glfwSwapBuffers(window); // Desenha o que ta no buffer na tela
