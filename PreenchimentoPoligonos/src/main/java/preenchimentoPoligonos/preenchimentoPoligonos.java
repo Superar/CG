@@ -5,6 +5,7 @@ import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 
 import java.nio.DoubleBuffer;
+import java.nio.IntBuffer;
 
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
@@ -30,6 +31,9 @@ public class preenchimentoPoligonos {
 
     // Preenchimento de poligono
     private Poligono poligono;
+
+    // Flags de estados
+    private boolean focusedWindow = true;
 
     private void run() {
         init();
@@ -84,7 +88,7 @@ public class preenchimentoPoligonos {
             // Esc fecha a tela
             if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
                 glfwSetWindowShouldClose(window, true);
-            // Tecla P fecha o poligono
+            // Tecla espaço fecha o poligono
             if (key == GLFW_KEY_SPACE && !poligono.isClosed()) {
                 poligono.close();
             }
@@ -133,14 +137,37 @@ public class preenchimentoPoligonos {
 
         bresenhamLineDrawer lineDrawer = new bresenhamLineDrawer(LINE_COLOR_R, LINE_COLOR_G, LINE_COLOR_B);
 
+        IntBuffer width = BufferUtils.createIntBuffer(1);
+        IntBuffer height = BufferUtils.createIntBuffer(1);
+        DoubleBuffer xpos = BufferUtils.createDoubleBuffer(1);
+        DoubleBuffer ypos = BufferUtils.createDoubleBuffer(1);
+        double x = 1, y = 1;
+
         while (!glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Limpa o frame buffer
 
             // Salva posicao atual do mouse para desenhar linha enquanto seleciona proximo ponto
-            DoubleBuffer xpos = BufferUtils.createDoubleBuffer(1);
-            DoubleBuffer ypos = BufferUtils.createDoubleBuffer(1);
             glfwGetCursorPos(window, xpos, ypos);
+            glfwGetWindowSize(window, width, height);
 
+            // Verifica se mouse esta na tela
+            if (xpos.get(0) >= 0 && xpos.get(0) < (double)width.get(0) && ypos.get(0) >= 0 && ypos.get(0) < (double)height.get(0))
+            {
+                if (!focusedWindow)
+                    focusedWindow = true;
+            }
+            else if (focusedWindow)
+            {
+                x = xpos.get(0);
+                y = ypos.get(0);
+                focusedWindow = false;
+            }
+
+            if (!focusedWindow)
+            {
+                xpos.put(0, x);
+                ypos.put(0, y);
+            }
 
             // Desenha poligono
             poligono.desenha();
