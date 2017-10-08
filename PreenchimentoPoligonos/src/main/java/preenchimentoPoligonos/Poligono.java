@@ -47,6 +47,8 @@ public class Poligono {
     public void close() {
         Ponto pontoFinal = new Ponto(pontos.get(0).getX(), pontos.get(0).getY());
 
+        System.out.println("Fechando com: " + pontoFinal.getX() + ", " + pontoFinal.getY());
+
         scanline.addAresta(pontos.get(pontos.size() - 1), pontoFinal);
 
         pontos.add(pontoFinal);

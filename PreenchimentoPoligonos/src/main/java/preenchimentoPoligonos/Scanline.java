@@ -3,7 +3,6 @@ package preenchimentoPoligonos;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.concurrent.TimeUnit;
 
 public class Scanline {
 
@@ -64,7 +63,7 @@ public class Scanline {
 
         LinkedList<Node> nodes;
 
-        for (int linha = minLine; linha <= maxLine; linha++) {
+        for (int linha = minLine; linha < maxLine; linha++) {
 
             nodes = et.get(linha);
 
@@ -77,120 +76,86 @@ public class Scanline {
                 Collections.sort(aet);
             }
 
-            System.out.println(aet);
-
-//            try {
-//
-//                TimeUnit.SECONDS.sleep(1);
-//
-//            } catch (Exception e){
-//                System.out.println("travou");
-//            }
-
+            System.out.println("linha " + linha + ": "+ aet);
 
             draw(linha);
         }
     }
 
     void draw(int linha) {
-
-        int i = 0;
         Node start = null, end;
+        int par = 0;
 
-        try {
+        for (int i = 0; i < aet.size();){
 
-            for (Node node : aet) {
-                if (node.y_max == linha) {
-                    aet.remove(node);
+            if (aet.get(i).y_max == linha){
+                aet.remove(i);
+            } else {
+                if (par == 0){
+                    start = aet.get(i);
+                    par++;
+                    i++;
                 } else {
-                    if (i == 0) {
-                        start = node;
-                        i++;
-                    } else {
-                        i = 0;
+                    par = 0;
 
-                        end = node;
+                    end = aet.get(i);
 
-                        for (int j = start.x0; j <= end.x0; j++) {
-                            bresenhamLineDrawer.drawPoint(j, linha);
-                        }
-
-                        start.incrementa();
-                        end.incrementa();
-
-                        Collections.sort(aet);
+                    for (int j = start.x0; j < end.x0; j++) {
+                        bresenhamLineDrawer.drawPoint(j, linha);
                     }
+
+                    start.incrementa();
+                    end.incrementa();
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+
         }
+
+//        Collections.sort(aet);
+
     }
-
-    void leftEdgeScan(int xmin, int ymin, int xmax, int ymax, int valor) {
-        int x, y;
-
-        x = xmin;
-        y = ymin;
-
-        int numerador = xmax - xmin;
-        int denominador = ymax - ymin;
-        int incremento = denominador;
-
-        for (y = ymin; y <= ymax; y++) {
-            //pintaPixel(x, y, valor);
-
-            incremento += numerador;
-
-            if (incremento > denominador) {
-                x++;
-                incremento -= denominador;
-            }
-        }
-    }
-
 
     class Node implements Comparable<Node> {
         int y_max, x0;
-        int numInclinacao, denInclinacao, incremento, sinalInclinacao;
+        int dx, dy, inc, sinal;
 
         public Node(Node node) {
             this.y_max = node.y_max;
             this.x0 = node.x0;
-            this.numInclinacao = node.numInclinacao;
-            this.denInclinacao = node.denInclinacao;
-            this.incremento = node.incremento;
-            this.sinalInclinacao = node.sinalInclinacao;
+            this.dx = node.dx;
+            this.dy = node.dy;
+            this.inc = node.inc;
+            this.sinal = node.sinal;
         }
 
-        public Node(int y_max, int x0, int numInclinacao, int denInclinacao) {
+        public Node(int y_max, int x0, int dx, int dy) {
             this.y_max = y_max;
             this.x0 = x0;
-            this.numInclinacao = Math.abs(numInclinacao);
-            this.denInclinacao = Math.abs(denInclinacao);
+            this.dx = Math.abs(dx);
+            this.dy = Math.abs(dy);
 
-            if (numInclinacao*denInclinacao < 0){
-                sinalInclinacao = -1;
+            if (dx*dy < 0){
+                sinal = -1;
             } else {
-                sinalInclinacao = 1;
+                sinal = 1;
             }
 
-            this.incremento = 0;
+            this.inc = 0;
         }
 
         public void incrementa(){
 
-            incremento += numInclinacao;
+            inc += dx;
 
-            if (incremento >= 0) {
-                this.x0 += sinalInclinacao;
-                incremento -= 0;
+            while (inc >= dy) {
+                this.x0 += sinal;
+                inc -= dy;
             }
         }
 
         @Override
         public String toString() {
-            return "[" + String.valueOf(y_max) + ", " + String.valueOf(x0) + ", " + numInclinacao+ "/" + denInclinacao + "]";
+            return "[" + y_max + ", " + x0 + ", " + sinal*dx+ "/" + dy + "]";
         }
 
         @Override
