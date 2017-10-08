@@ -15,5 +15,4 @@ public class Ponto {
     public int getY(){
         return this.y;
     }
-
 }

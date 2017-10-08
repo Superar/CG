@@ -7,9 +7,9 @@ import static org.lwjgl.opengl.GL11.glVertex2i;
 
 class bresenhamLineDrawer
 {
-    private static float LINE_COLOR_R;
-    private static float LINE_COLOR_G;
-    private static float LINE_COLOR_B;
+    private static float LINE_COLOR_R = 1.f;
+    private static float LINE_COLOR_G = 1.f;
+    private static float LINE_COLOR_B = 1.f;
 
     bresenhamLineDrawer(float line_color_R, float line_color_G, float line_color_B)
     {
@@ -86,7 +86,7 @@ class bresenhamLineDrawer
         }
     }
 
-    private void drawPoint(int x, int y)
+    static void drawPoint(int x, int y)
     {
         glPointSize(1);
         glColor3f(LINE_COLOR_R, LINE_COLOR_G, LINE_COLOR_B);
