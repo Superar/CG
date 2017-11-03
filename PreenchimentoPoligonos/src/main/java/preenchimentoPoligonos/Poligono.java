@@ -19,8 +19,6 @@ public class Poligono {
 
     public void addPonto(int x, int y) {
 
-        System.out.println("Ponto: " + x + ", " + y);
-
         Ponto p1 = new Ponto(x,y);
 
         if (!pontos.isEmpty()) {
@@ -35,7 +33,6 @@ public class Poligono {
                 this.maxLine = y;
             }
 
-            System.out.println("Min: " + minLine + ", Max: " + maxLine);
         } else {
             this.maxLine = y;
             this.minLine = y;
@@ -46,8 +43,6 @@ public class Poligono {
 
     public void close() {
         Ponto pontoFinal = new Ponto(pontos.get(0).getX(), pontos.get(0).getY());
-
-        System.out.println("Fechando com: " + pontoFinal.getX() + ", " + pontoFinal.getY());
 
         scanline.addAresta(pontos.get(pontos.size() - 1), pontoFinal);
 
@@ -82,7 +77,6 @@ public class Poligono {
             }
 
         } else {
-
             scanline.preenche(this.minLine, this.maxLine);
         }
     }

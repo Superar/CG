@@ -51,9 +51,6 @@ public class Scanline {
 
                 this.et.put(ymin, nodes);
             }
-
-            System.out.println(nodes);
-            System.out.println(et);
         }
     }
 
@@ -76,8 +73,6 @@ public class Scanline {
                 Collections.sort(aet);
             }
 
-            System.out.println("linha " + linha + ": "+ aet);
-
             draw(linha);
         }
     }
@@ -86,14 +81,14 @@ public class Scanline {
         Node start = null, end;
         int par = 0;
 
-        for (int i = 0; i < aet.size();){
+        for (int i = 0; i < aet.size(); ) {
 
-            if (aet.get(i).y_max == linha){
+            if (aet.get(i).y_max == linha) {
                 aet.remove(i);
             } else {
-                if (par == 0){
+                if (par == 0) {
                     start = aet.get(i);
-                    par++;
+                    par = 1;
                     i++;
                 } else {
                     par = 0;
@@ -106,13 +101,13 @@ public class Scanline {
 
                     start.incrementa();
                     end.incrementa();
+
+                    i++;
                 }
             }
-
         }
 
-//        Collections.sort(aet);
-
+        Collections.sort(aet);
     }
 
     class Node implements Comparable<Node> {
@@ -134,7 +129,7 @@ public class Scanline {
             this.dx = Math.abs(dx);
             this.dy = Math.abs(dy);
 
-            if (dx*dy < 0){
+            if (dx * dy < 0) {
                 sinal = -1;
             } else {
                 sinal = 1;
@@ -143,7 +138,7 @@ public class Scanline {
             this.inc = 0;
         }
 
-        public void incrementa(){
+        public void incrementa() {
 
             inc += dx;
 
@@ -155,7 +150,7 @@ public class Scanline {
 
         @Override
         public String toString() {
-            return "[" + y_max + ", " + x0 + ", " + sinal*dx+ "/" + dy + "]";
+            return "[" + y_max + ", " + x0 + ", " + sinal * dx + "/" + dy + "]";
         }
 
         @Override
