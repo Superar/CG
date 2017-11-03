@@ -4,6 +4,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import preenchimentoPoligonos.auxiliares.Cor;
+import preenchimentoPoligonos.auxiliares.Ponto;
+
 public class Scanline {
 
     private HashMap<Integer, LinkedList<Node>> et;
@@ -54,7 +57,7 @@ public class Scanline {
         }
     }
 
-    public void preenche(int minLine, int maxLine) {
+    public void preenche(int minLine, int maxLine, Cor cor) {
 
         aet = new LinkedList<Node>();
 
@@ -73,11 +76,11 @@ public class Scanline {
                 Collections.sort(aet);
             }
 
-            draw(linha);
+            draw(linha, cor);
         }
     }
 
-    void draw(int linha) {
+    void draw(int linha, Cor cor) {
         Node start = null, end;
         int par = 0;
 
@@ -96,7 +99,7 @@ public class Scanline {
                     end = aet.get(i);
 
                     for (int j = start.x0; j < end.x0; j++) {
-                        bresenhamLineDrawer.drawPoint(j, linha);
+                        BresenhamLineDrawer.drawPoint(j, linha, cor);
                     }
 
                     start.incrementa();

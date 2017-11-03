@@ -1,4 +1,6 @@
-package preenchimentoPoligonos;
+package preenchimentoPoligonos.auxiliares;
+
+import preenchimentoPoligonos.preenchimentoPoligonos;
 
 public class Ponto {
     private int x, y;

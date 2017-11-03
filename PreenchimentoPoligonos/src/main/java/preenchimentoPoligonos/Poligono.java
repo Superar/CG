@@ -2,10 +2,15 @@ package preenchimentoPoligonos;
 
 import java.util.ArrayList;
 
+import preenchimentoPoligonos.auxiliares.Cor;
+import preenchimentoPoligonos.auxiliares.Ponto;
+
 public class Poligono {
     private ArrayList<Ponto> pontos;
     private Scanline scanline;
     private boolean closed; // Poligono ja esta fechado
+
+    Cor cor;
 
     private int maxLine;
     private int minLine;
@@ -15,6 +20,7 @@ public class Poligono {
         pontos = new ArrayList<Ponto>();
         this.closed = false;
         scanline = new Scanline();
+        cor = new Cor();
     }
 
     public void addPonto(int x, int y) {
@@ -66,7 +72,7 @@ public class Poligono {
     public void desenha() {
 
         if (!isClosed()){
-            bresenhamLineDrawer lineDrawer = new bresenhamLineDrawer(1.0f, 1.0f, 1.0f);
+            BresenhamLineDrawer lineDrawer = new BresenhamLineDrawer(cor.red, cor.green, cor.blue);
 
             Ponto pontoInicial, pontoFinal;
 
@@ -77,7 +83,7 @@ public class Poligono {
             }
 
         } else {
-            scanline.preenche(this.minLine, this.maxLine);
+            scanline.preenche(this.minLine, this.maxLine, cor);
         }
     }
 }

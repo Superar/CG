@@ -1,21 +1,21 @@
 package preenchimentoPoligonos;
 
+import preenchimentoPoligonos.auxiliares.Cor;
+
 import static java.lang.Math.abs;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glVertex2i;
 
-class bresenhamLineDrawer
+class BresenhamLineDrawer
 {
-    private static float LINE_COLOR_R = 1.f;
-    private static float LINE_COLOR_G = 1.f;
-    private static float LINE_COLOR_B = 1.f;
+    Cor cor;
 
-    bresenhamLineDrawer(float line_color_R, float line_color_G, float line_color_B)
+    BresenhamLineDrawer(float line_color_R, float line_color_G, float line_color_B)
     {
-        LINE_COLOR_R = line_color_R;
-        LINE_COLOR_G = line_color_G;
-        LINE_COLOR_B = line_color_B;
+        cor = new Cor();
+
+        cor.setCor(line_color_R, line_color_G, line_color_B);
     }
 
     void drawLine(int x0, int y0, int x1, int y1)
@@ -74,9 +74,9 @@ class bresenhamLineDrawer
         for (int principal = fimPrincipal, secundario = fimSecundario; principal < inicioPrincipal; principal = principal + 1)
         {
             if (swap)
-                drawPoint(secundario, principal);
+                drawPoint(secundario, principal, this.cor);
             else
-                drawPoint(principal, secundario);
+                drawPoint(principal, secundario, this.cor);
             if (d <= 0) {
                 d = d + incE;
             } else {
@@ -86,10 +86,10 @@ class bresenhamLineDrawer
         }
     }
 
-    static void drawPoint(int x, int y)
+    static void drawPoint(int x, int y, Cor cor)
     {
         glPointSize(1);
-        glColor3f(LINE_COLOR_R, LINE_COLOR_G, LINE_COLOR_B);
+        glColor3f(cor.red, cor.green, cor.blue);
         glBegin(GL_POINTS);
         glVertex2i(x, y);
         glEnd();
