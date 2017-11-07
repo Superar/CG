@@ -1,11 +1,11 @@
-package preenchimentoPoligonos;
+package Projeto;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import preenchimentoPoligonos.auxiliares.Cor;
-import preenchimentoPoligonos.auxiliares.Ponto;
+import Projeto.auxiliares.Cor;
+import Projeto.auxiliares.Ponto;
 
 public class Scanline {
 

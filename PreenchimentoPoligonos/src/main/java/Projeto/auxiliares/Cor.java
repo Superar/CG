@@ -1,4 +1,4 @@
-package preenchimentoPoligonos.auxiliares;
+package Projeto.auxiliares;
 
 public class Cor {
     public float red, green, blue;

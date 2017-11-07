@@ -1,6 +1,6 @@
-package preenchimentoPoligonos;
+package Projeto;
 
-import preenchimentoPoligonos.auxiliares.Cor;
+import Projeto.auxiliares.Cor;
 
 import static java.lang.Math.abs;
 import static org.lwjgl.opengl.GL11.*;
@@ -9,7 +9,13 @@ import static org.lwjgl.opengl.GL11.glVertex2i;
 
 class BresenhamLineDrawer
 {
-    Cor cor;
+    private Cor cor;
+
+    BresenhamLineDrawer()
+    {
+        cor = new Cor();
+        cor.setCor(1.0f, 1.0f, 1.0f);
+    }
 
     BresenhamLineDrawer(float line_color_R, float line_color_G, float line_color_B)
     {

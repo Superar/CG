@@ -1,9 +1,9 @@
-package preenchimentoPoligonos;
+package Projeto;
 
 import java.util.ArrayList;
 
-import preenchimentoPoligonos.auxiliares.Cor;
-import preenchimentoPoligonos.auxiliares.Ponto;
+import Projeto.auxiliares.Cor;
+import Projeto.auxiliares.Ponto;
 
 public class Poligono {
     private ArrayList<Ponto> pontos;
