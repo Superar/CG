@@ -99,7 +99,7 @@ public class GerenciadorInterface
         DoubleBuffer ypos = BufferUtils.createDoubleBuffer(1);
         glfwGetCursorPos(window, xpos, ypos);
         xAtual = xpos.get(0);
-        yAtual = xpos.get(0);
+        yAtual = ypos.get(0);
     }
 
     public boolean isPointerInsideWindow()
