@@ -3,7 +3,7 @@ package Projeto.auxiliares;
 public class Cor {
     public float red, green, blue;
 
-    public Cor(){
+    public Cor() {
         this.red = 1.0f;
         this.green = 1.0f;
         this.blue = 1.0f;

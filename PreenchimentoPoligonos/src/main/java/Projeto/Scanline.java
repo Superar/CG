@@ -7,16 +7,16 @@ import java.util.LinkedList;
 import Projeto.auxiliares.Cor;
 import Projeto.auxiliares.Ponto;
 
-public class Scanline {
+class Scanline {
 
     private HashMap<Integer, LinkedList<Node>> et;
     private LinkedList<Node> aet;
 
-    public Scanline() {
+    Scanline() {
         et = new HashMap<Integer, LinkedList<Node>>();
     }
 
-    public void addAresta(Ponto ponto1, Ponto ponto2) {
+    void addAresta(Ponto ponto1, Ponto ponto2) {
         if (!(ponto1.getY() - ponto2.getY() == 0)) {
 
             Ponto p1, p2;
@@ -57,7 +57,7 @@ public class Scanline {
         }
     }
 
-    public void preenche(int minLine, int maxLine, Cor cor) {
+    void preenche(int minLine, int maxLine, Cor cor) {
 
         aet = new LinkedList<Node>();
 
@@ -80,7 +80,7 @@ public class Scanline {
         }
     }
 
-    void draw(int linha, Cor cor) {
+    private void draw(int linha, Cor cor) {
         Node start = null, end;
         int par = 0;
 
@@ -117,7 +117,7 @@ public class Scanline {
         int y_max, x0;
         int dx, dy, inc, sinal;
 
-        public Node(Node node) {
+        Node(Node node) {
             this.y_max = node.y_max;
             this.x0 = node.x0;
             this.dx = node.dx;
@@ -126,7 +126,7 @@ public class Scanline {
             this.sinal = node.sinal;
         }
 
-        public Node(int y_max, int x0, int dx, int dy) {
+        Node(int y_max, int x0, int dx, int dy) {
             this.y_max = y_max;
             this.x0 = x0;
             this.dx = Math.abs(dx);
@@ -141,7 +141,7 @@ public class Scanline {
             this.inc = 0;
         }
 
-        public void incrementa() {
+        void incrementa() {
 
             inc += dx;
 

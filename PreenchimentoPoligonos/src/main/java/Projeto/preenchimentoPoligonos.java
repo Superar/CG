@@ -7,8 +7,7 @@ import java.util.ArrayList;
 
 import static org.lwjgl.glfw.GLFW.*;
 
-public class preenchimentoPoligonos
-{
+class preenchimentoPoligonos {
     // Variaveis para desenho e controle dos poligonos
     private ArrayList<Poligono> objetos;
     private Poligono poligono;
@@ -20,8 +19,7 @@ public class preenchimentoPoligonos
     // Flag
     private boolean deveSair;
 
-    preenchimentoPoligonos(GerenciadorInterface i)
-    {
+    preenchimentoPoligonos(GerenciadorInterface i) {
         INTERFACE = i;
         lineDrawer = new BresenhamLineDrawer();
 
@@ -31,10 +29,8 @@ public class preenchimentoPoligonos
         deveSair = false;
     }
 
-    private void verificaTecla()
-    {
-        switch (INTERFACE.key_pressed)
-        {
+    private void verificaTecla() {
+        switch (INTERFACE.key_pressed) {
             case GLFW_KEY_ESCAPE: // Esc volta para o menu
                 deveSair = true;
                 break;
@@ -65,27 +61,19 @@ public class preenchimentoPoligonos
         }
     }
 
-    boolean render()
-    {
+    boolean render() {
         double x = INTERFACE.xAtual;
         double y = INTERFACE.yAtual;
 
-        if (deveSair)
-        {
+        if (deveSair) {
             deveSair = false;
             return false;
-        }
-        else
-        {
-            if (INTERFACE.acao == GerenciadorInterface.Acao.TECLADO_PRESS)
-            {
+        } else {
+            if (INTERFACE.acao == GerenciadorInterface.Acao.TECLADO_PRESS) {
                 verificaTecla();
                 INTERFACE.limpaAcao();
-            }
-            else if (INTERFACE.acao == GerenciadorInterface.Acao.MOUSE_CLICK)
-            {
-                if (poligono.isClosed())
-                {
+            } else if (INTERFACE.acao == GerenciadorInterface.Acao.MOUSE_CLICK) {
+                if (poligono.isClosed()) {
                     poligono = new Poligono();
                 }
                 poligono.addPonto((int) INTERFACE.xClique, (int) INTERFACE.yClique);
@@ -93,8 +81,7 @@ public class preenchimentoPoligonos
                 INTERFACE.limpaAcao();
             }
 
-            for (Poligono p : objetos)
-            {
+            for (Poligono p : objetos) {
                 p.desenha();
             }
 
@@ -102,8 +89,7 @@ public class preenchimentoPoligonos
             poligono.desenha();
 
             Ponto ultimoPonto = poligono.getUltimoPonto();
-            if (ultimoPonto != null)
-            {
+            if (ultimoPonto != null) {
                 lineDrawer.drawLine(ultimoPonto.getX(), ultimoPonto.getY(), (int) x, (int) y);
             }
 

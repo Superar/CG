@@ -9,8 +9,7 @@ import java.nio.IntBuffer;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
-public class GerenciadorInterface
-{
+public class GerenciadorInterface {
     private long window;
 
     private GLFWFramebufferSizeCallback redimensionamento;
@@ -19,7 +18,8 @@ public class GerenciadorInterface
 
     private boolean PointerInsideWindow = true;
 
-    public enum Acao { MOUSE_CLICK, TECLADO_PRESS }
+    public enum Acao {MOUSE_CLICK, TECLADO_PRESS}
+
     public Acao acao = null;
     public int key_pressed = 0;
     public double xClique = 0;
@@ -27,15 +27,12 @@ public class GerenciadorInterface
     public double xAtual = 0;
     public double yAtual = 0;
 
-    public GerenciadorInterface(long window)
-    {
+    public GerenciadorInterface(long window) {
         this.window = window;
 
-        redimensionamento = new GLFWFramebufferSizeCallback()
-        {
+        redimensionamento = new GLFWFramebufferSizeCallback() {
             @Override
-            public void invoke(long window, int width, int height)
-            {
+            public void invoke(long window, int width, int height) {
                 glViewport(0, 0, width, height);
                 glMatrixMode(GL_PROJECTION);
                 glLoadIdentity();
@@ -51,32 +48,25 @@ public class GerenciadorInterface
             }
         };
 
-        teclasTeclado = new GLFWKeyCallback()
-        {
+        teclasTeclado = new GLFWKeyCallback() {
             @Override
-            public void invoke(long window, int key, int scancode, int action, int mods)
-            {
-                if (action == GLFW_RELEASE)
-                {
+            public void invoke(long window, int key, int scancode, int action, int mods) {
+                if (action == GLFW_RELEASE) {
                     acao = Acao.TECLADO_PRESS;
                     key_pressed = key;
                 }
             }
         };
 
-        botoesMouse = new GLFWMouseButtonCallback()
-        {
+        botoesMouse = new GLFWMouseButtonCallback() {
             @Override
-            public void invoke(long window, int button, int action, int mods)
-            {
-                if (button == GLFW_MOUSE_BUTTON_1)
-                {
+            public void invoke(long window, int button, int action, int mods) {
+                if (button == GLFW_MOUSE_BUTTON_1) {
                     DoubleBuffer xpos = BufferUtils.createDoubleBuffer(1);
                     DoubleBuffer ypos = BufferUtils.createDoubleBuffer(1);
                     glfwGetCursorPos(window, xpos, ypos);
 
-                    if (action == GLFW_RELEASE)
-                    {
+                    if (action == GLFW_RELEASE) {
                         acao = Acao.MOUSE_CLICK;
                         xClique = xpos.get(0);
                         yClique = ypos.get(0);
@@ -86,15 +76,13 @@ public class GerenciadorInterface
         };
     }
 
-    public void setupCallbacks()
-    {
+    public void setupCallbacks() {
         glfwSetFramebufferSizeCallback(window, redimensionamento);
         glfwSetKeyCallback(window, teclasTeclado);
         glfwSetMouseButtonCallback(window, botoesMouse);
     }
 
-    public void atualizaCoodenadasAtuais()
-    {
+    public void atualizaCoodenadasAtuais() {
         DoubleBuffer xpos = BufferUtils.createDoubleBuffer(1);
         DoubleBuffer ypos = BufferUtils.createDoubleBuffer(1);
         glfwGetCursorPos(window, xpos, ypos);
@@ -102,8 +90,7 @@ public class GerenciadorInterface
         yAtual = ypos.get(0);
     }
 
-    public boolean isPointerInsideWindow()
-    {
+    public boolean isPointerInsideWindow() {
         IntBuffer width = BufferUtils.createIntBuffer(1);
         IntBuffer height = BufferUtils.createIntBuffer(1);
         DoubleBuffer xpos = BufferUtils.createDoubleBuffer(1);
@@ -112,23 +99,18 @@ public class GerenciadorInterface
         glfwGetWindowSize(window, width, height);
         glfwGetCursorPos(window, xpos, ypos);
 
-        if (xpos.get(0) >= 0 && xpos.get(0) < (double) width.get(0) && ypos.get(0) >= 0 && ypos.get(0) < (double) height.get(0))
-        {
-            if (!PointerInsideWindow)
-            {
+        if (xpos.get(0) >= 0 && xpos.get(0) < (double) width.get(0) && ypos.get(0) >= 0 && ypos.get(0) < (double) height.get(0)) {
+            if (!PointerInsideWindow) {
                 PointerInsideWindow = true;
             }
-        }
-        else if (PointerInsideWindow)
-        {
+        } else if (PointerInsideWindow) {
             PointerInsideWindow = false;
         }
 
         return PointerInsideWindow;
     }
 
-    public void limpaAcao()
-    {
+    public void limpaAcao() {
         this.acao = null;
     }
 }

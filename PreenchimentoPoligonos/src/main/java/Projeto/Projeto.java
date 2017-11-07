@@ -12,8 +12,7 @@ import static org.lwjgl.glfw.GLFW.glfwSwapInterval;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
-public class Projeto
-{
+public class Projeto {
     private long window;
 
     private static final int LARGURA = 600;
@@ -32,11 +31,13 @@ public class Projeto
     private static preenchimentoPoligonos Poligonos;
 
     // Estados
-    private enum Estados { MENU, POLIGONOS, MODELAGEM }
+    private enum Estados {
+        MENU, POLIGONOS, MODELAGEM
+    }
+
     private Estados estado = Estados.MENU;
 
-    private void run()
-    {
+    private void run() {
         init();
         loop();
 
@@ -49,12 +50,10 @@ public class Projeto
         glfwSetErrorCallback(null).free();
     }
 
-    private void init()
-    {
+    private void init() {
         GLFWErrorCallback.createPrint(System.err).set();
 
-        if (!glfwInit())
-        {
+        if (!glfwInit()) {
             throw new IllegalStateException("Nao foi possivel encontrar o GLFW");
         }
 
@@ -64,8 +63,7 @@ public class Projeto
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
         window = glfwCreateWindow(LARGURA, ALTURA, TITULO, NULL, NULL);
-        if (window == NULL)
-        {
+        if (window == NULL) {
             throw new RuntimeException("Falha na criacao da janela GLFW");
         }
 
@@ -85,10 +83,8 @@ public class Projeto
         glfwShowWindow(window);
     }
 
-    private void verificaTeclaMenu()
-    {
-        switch (INTERFACE.key_pressed)
-        {
+    private void verificaTeclaMenu() {
+        switch (INTERFACE.key_pressed) {
             case GLFW_KEY_ESCAPE:
                 glfwSetWindowShouldClose(window, true);
                 break;
@@ -100,34 +96,28 @@ public class Projeto
         }
     }
 
-    private void loop()
-    {
+    private void loop() {
         GL.createCapabilities();
 
         glOrtho(0.0f, LARGURA, ALTURA, 0.0f, 0.0f, 1.0f);
         glClearColor(BG_COLOR_R, BG_COLOR_G, BG_COLOR_B, 0.0f);
 
-        while (!glfwWindowShouldClose(window))
-        {
+        while (!glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            if (INTERFACE.isPointerInsideWindow())
-            {
+            if (INTERFACE.isPointerInsideWindow()) {
                 INTERFACE.atualizaCoodenadasAtuais();
             }
 
-            switch (estado)
-            {
+            switch (estado) {
                 case MENU:
-                    if (INTERFACE.acao == GerenciadorInterface.Acao.TECLADO_PRESS)
-                    {
+                    if (INTERFACE.acao == GerenciadorInterface.Acao.TECLADO_PRESS) {
                         verificaTeclaMenu();
                         INTERFACE.limpaAcao();
                     }
                     break;
                 case POLIGONOS:
-                    if (!Poligonos.render())
-                    {
+                    if (!Poligonos.render()) {
                         estado = Estados.MENU;
                     }
                     break;
@@ -144,8 +134,7 @@ public class Projeto
         }
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         new Projeto().run();
     }
 }
