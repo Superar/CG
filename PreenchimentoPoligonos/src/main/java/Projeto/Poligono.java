@@ -1,11 +1,11 @@
-package preenchimentoPoligonos;
+package Projeto;
 
 import java.util.ArrayList;
 
-import preenchimentoPoligonos.auxiliares.Cor;
-import preenchimentoPoligonos.auxiliares.Ponto;
+import Projeto.auxiliares.Cor;
+import Projeto.auxiliares.Ponto;
 
-public class Poligono {
+class Poligono {
     private ArrayList<Ponto> pontos;
     private Scanline scanline;
     private boolean closed; // Poligono ja esta fechado
@@ -16,26 +16,26 @@ public class Poligono {
     private int minLine;
 
 
-    public Poligono() {
-        pontos = new ArrayList<Ponto>();
+    Poligono() {
+        pontos = new ArrayList<>();
         this.closed = false;
         scanline = new Scanline();
         cor = new Cor();
     }
 
-    public void addPonto(int x, int y) {
+    void addPonto(int x, int y) {
 
-        Ponto p1 = new Ponto(x,y);
+        Ponto p1 = new Ponto(x, y);
 
         if (!pontos.isEmpty()) {
             Ponto p2 = pontos.get(pontos.size() - 1);
             scanline.addAresta(p1, p2);
 
-            if(this.minLine > y){
+            if (this.minLine > y) {
                 this.minLine = y;
             }
 
-            if(this.maxLine < y){
+            if (this.maxLine < y) {
                 this.maxLine = y;
             }
 
@@ -47,7 +47,7 @@ public class Poligono {
         this.pontos.add(p1);
     }
 
-    public void close() {
+    void close() {
         Ponto pontoFinal = new Ponto(pontos.get(0).getX(), pontos.get(0).getY());
 
         scanline.addAresta(pontos.get(pontos.size() - 1), pontoFinal);
@@ -57,11 +57,11 @@ public class Poligono {
         this.closed = true;
     }
 
-    public boolean isClosed() {
+    boolean isClosed() {
         return this.closed;
     }
 
-    public Ponto getUltimoPonto() {
+    Ponto getUltimoPonto() {
         if (!pontos.isEmpty()) {
             return pontos.get(pontos.size() - 1);
         } else {
@@ -69,9 +69,9 @@ public class Poligono {
         }
     }
 
-    public void desenha() {
+    void desenha() {
 
-        if (!isClosed()){
+        if (!isClosed()) {
             BresenhamLineDrawer lineDrawer = new BresenhamLineDrawer(cor.red, cor.green, cor.blue);
 
             Ponto pontoInicial, pontoFinal;
