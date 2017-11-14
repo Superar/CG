@@ -125,18 +125,18 @@ public class Projeto {
                     break;
                 case POLIGONOS:
                     GL11.glColor3f(1,1,1);
-                    SimpleText.drawString("Utilize o botão esquerdo do Mouse para selecionar os vertices do Poligono", 10,INTERFACE.getWindowHeight()-28);
-                    SimpleText.drawString("Aperte a barra de espaço para completar o Poligono", 10,INTERFACE.getWindowHeight()-28);
-                    SimpleText.drawString("Aperte ESC para voltar", 10,INTERFACE.getWindowHeight()-8);
+                    SimpleText.drawString("O botão esquerdo do Mouse seleciona os vertices do Poligono", 10,INTERFACE.getWindowHeight()-28);
+                    SimpleText.drawString("A barra de espaço completa o Poligono", 10,INTERFACE.getWindowHeight()-28);
+                    SimpleText.drawString("ESC volta para o menu", 10,INTERFACE.getWindowHeight()-8);
                     if (!Poligonos.render()) {
                         estado = Estados.MENU;
                     }
                     break;
                 case MODELAGEM:
                     GL11.glColor3f(1,1,1);
-                    SimpleText.drawString("Utilize as teclas w,s,z,x para transladar o solido o solido", 10,INTERFACE.getWindowHeight()-28);
-                    SimpleText.drawString("Utilize as setas do teclado para rotacionar o solido", 10,INTERFACE.getWindowHeight()-28);
-                    SimpleText.drawString("Aperte ESC para voltar", 10,INTERFACE.getWindowHeight()-8);
+                    SimpleText.drawString("As teclas w,s,z,x transladam o solido", 10,INTERFACE.getWindowHeight()-28);
+                    SimpleText.drawString("As setas do teclado rotacionam o solido", 10,INTERFACE.getWindowHeight()-28);
+                    SimpleText.drawString("ESC volta para o menu", 10,INTERFACE.getWindowHeight()-8);
                     if (!Modelagem.render()) {
                         estado = Estados.MENU;
                     }
