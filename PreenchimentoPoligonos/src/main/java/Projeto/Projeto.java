@@ -125,16 +125,18 @@ public class Projeto {
                     break;
                 case POLIGONOS:
                     GL11.glColor3f(1,1,1);
-                    SimpleText.drawString("Utilize o botão esquerdo do Mouse para selecionar os vertices do Poligono", 10,INTERFACE.getWindowHeight()-28);
-                    SimpleText.drawString("Aperte ESC para voltar", 10,INTERFACE.getWindowHeight()-8);
+                    SimpleText.drawString("O botão esquerdo do Mouse seleciona os vertices do Poligono", 10,INTERFACE.getWindowHeight()-28);
+                    SimpleText.drawString("A barra de espaço completa o Poligono", 10,INTERFACE.getWindowHeight()-28);
+                    SimpleText.drawString("ESC volta para o menu", 10,INTERFACE.getWindowHeight()-8);
                     if (!Poligonos.render()) {
                         estado = Estados.MENU;
                     }
                     break;
                 case MODELAGEM:
                     GL11.glColor3f(1,1,1);
-                    SimpleText.drawString("Utilize as setas do teclado para rotacionar o solido", 10,INTERFACE.getWindowHeight()-28);
-                    SimpleText.drawString("Aperte ESC para voltar", 10,INTERFACE.getWindowHeight()-8);
+                    SimpleText.drawString("As teclas w,s,z,x transladam o solido", 10,INTERFACE.getWindowHeight()-28);
+                    SimpleText.drawString("As setas do teclado rotacionam o solido", 10,INTERFACE.getWindowHeight()-28);
+                    SimpleText.drawString("ESC volta para o menu", 10,INTERFACE.getWindowHeight()-8);
                     if (!Modelagem.render()) {
                         estado = Estados.MENU;
                     }
@@ -151,7 +153,7 @@ public class Projeto {
         SimpleText.drawString("Menu", INTERFACE.getWindowWidth()/2,INTERFACE.getWindowHeight()/2-25);
         SimpleText.drawString("p. Desenha poligono", INTERFACE.getWindowWidth()/2-72,INTERFACE.getWindowHeight()/2 - 5);
         SimpleText.drawString("m. desenha um solido", INTERFACE.getWindowWidth()/2-72,INTERFACE.getWindowHeight()/2+15);
-        SimpleText.drawString("esq. sair", INTERFACE.getWindowWidth()/2-72,INTERFACE.getWindowHeight()/2 +35);
+        SimpleText.drawString("esc. sair", INTERFACE.getWindowWidth()/2-72,INTERFACE.getWindowHeight()/2 +35);
     }
 
     public static void main(String[] args) {
