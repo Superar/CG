@@ -6,7 +6,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 
 class ModelagemCubo {
     // Solido representando o cubo e angulo de rotacao
-    private Solido cubo;
+    private Solido cuboProjetado;
     private float ang;
 
     // Utilitarios
@@ -18,7 +18,7 @@ class ModelagemCubo {
     ModelagemCubo(GerenciadorInterface i) {
         INTERFACE = i;
 
-        cubo = new Solido(-900); // TODO: Retirar a distancia focal da criacao do solido
+        Solido cubo = new Solido(); // TODO: Retirar a distancia focal da criacao do solido
 
         // Face traseira. Z fixo em 100. Verde.
         cubo.setCorFaceAtual(0, 1.0f, 0);
@@ -68,6 +68,10 @@ class ModelagemCubo {
         cubo.adicionaPonto(250, 100, 250);
         cubo.closeFaceAtual();
 
+        System.out.println(cubo.projetaSolido());
+
+        cuboProjetado = cubo.projetaSolido();
+
         ang = 1.0f;
         deveSair = false;
     }
@@ -83,12 +87,12 @@ class ModelagemCubo {
                 INTERFACE.limpaAcao();
             }
 
-            Solido cuboRotacionado = cubo.rotacionaSolido(ang);
+//            Solido cuboRotacionado = cubo.rotacionaSolido(ang);
 
             // TODO: Corrigir desenho da rotacao. Nao esta desenhando correto, mas esta rotacionando.
-            System.out.println(cuboRotacionado);
-            for (Poligono p : cuboRotacionado.faces) {
-                p.desenha();
+//            System.out.println(cuboRotacionado);
+            for (Poligono p : cuboProjetado.faces) {
+                p.projetaPoligono().desenha();
             }
             ang += 0.5f;
 

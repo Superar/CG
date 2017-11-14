@@ -35,9 +35,9 @@ class Poligono {
         this.minLine = p.minLine;
     }
 
-    void addPonto(int x, int y) {
+    void addPonto(int x, int y, int z) {
 
-        Ponto p1 = new Ponto(x, y);
+        Ponto p1 = new Ponto(x, y, z);
 
         if (!pontos.isEmpty()) {
             Ponto p2 = pontos.get(pontos.size() - 1);
@@ -60,7 +60,7 @@ class Poligono {
     }
 
     void close() {
-        Ponto pontoFinal = new Ponto(pontos.get(0).getX(), pontos.get(0).getY());
+        Ponto pontoFinal = new Ponto(pontos.get(0).getX(), pontos.get(0).getY(), pontos.get(0).getZ());
 
         scanline.addAresta(pontos.get(pontos.size() - 1), pontoFinal);
 
@@ -99,20 +99,28 @@ class Poligono {
         }
     }
 
-    Poligono rotacionaPoligono(float angulo) {
-        Poligono polRotacionado = new Poligono(this);
-        INDArray matrizRotacao = Nd4j.create(new float[]{(float) Math.cos(angulo), (float) -Math.sin((double)angulo), 0,
-                                                         (float) Math.sin(angulo), (float) Math.cos(angulo), 0,
-                                                         0, 0, 1},
-                                             new int[]{3, 3});
-        for (Ponto p : pontos) {
-            INDArray ponto = Nd4j.create(new float[]{(float)p.getX(), p.getY(), 1}, new int[]{3, 1});
-            INDArray pontoRotacionado = matrizRotacao.mmul(ponto);
-            polRotacionado.pontos.add(new Ponto(pontoRotacionado.getInt(0, 0),
-                                                pontoRotacionado.getInt(1, 0)));
+    Poligono projetaPoligono() {
+        Poligono poligonoProjetado = new Poligono(this);
+        for (Ponto p : this.pontos) {
+            poligonoProjetado.pontos.add(p.projetaPonto());
         }
-        return polRotacionado;
+        return poligonoProjetado;
     }
+
+//    Poligono rotacionaPoligono(float angulo) {
+//        Poligono polRotacionado = new Poligono(this);
+//        INDArray matrizRotacao = Nd4j.create(new float[]{(float) Math.cos(angulo), (float) -Math.sin((double)angulo), 0,
+//                                                         (float) Math.sin(angulo), (float) Math.cos(angulo), 0,
+//                                                         0, 0, 1},
+//                                             new int[]{3, 3});
+//        for (Ponto p : pontos) {
+//            INDArray ponto = Nd4j.create(new float[]{(float)p.getX(), p.getY(), 1}, new int[]{3, 1});
+//            INDArray pontoRotacionado = matrizRotacao.mmul(ponto);
+//            polRotacionado.pontos.add(new Ponto(pontoRotacionado.getInt(0, 0),
+//                                                pontoRotacionado.getInt(1, 0)));
+//        }
+//        return polRotacionado;
+//    }
 
     @Override
     public String toString() {

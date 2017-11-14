@@ -1,39 +1,24 @@
 package Projeto;
 
-import Projeto.auxiliares.Ponto;
-import org.nd4j.linalg.api.ndarray.INDArray;
-import org.nd4j.linalg.factory.Nd4j;
-
 import java.util.ArrayList;
 
 class Solido {
 
-    private INDArray matrizProjecao;
     ArrayList<Poligono> faces;
     private Poligono faceAtual;
 
-    Solido (float d) {
-        matrizProjecao = Nd4j.create(new float[]{1, 0, 0, 0,
-                                                 0, 1, 0, 0,
-                                                 0, 0, 0, 0,
-                                                 0, 0, 1/d, 1},
-                                     new int[]{4, 4});
+    Solido () {
         faces = new ArrayList<Poligono>();
         faceAtual = new Poligono();
     }
 
     private Solido (Solido s) {
-        this.matrizProjecao = s.matrizProjecao;
         this.faces = new ArrayList<Poligono>();
         this.faceAtual = s.faceAtual;
     }
 
     void adicionaPonto(int x, int y, int z) {
-        INDArray ponto = Nd4j.create(new float[]{x, y, z, 1}, new int[]{4, 1});
-        INDArray pontoProjetado = matrizProjecao.mmul(ponto);
-        pontoProjetado = pontoProjetado.div(pontoProjetado.getFloat(3, 0));
-
-        faceAtual.addPonto(pontoProjetado.getInt(0, 0), pontoProjetado.getInt(1, 0));
+        faceAtual.addPonto(x, y, z);
     }
 
     void closeFaceAtual() {
@@ -47,12 +32,20 @@ class Solido {
         faceAtual.cor.setCor(red, green, blue);
     }
 
-    Solido rotacionaSolido(float angulo) {
-        Solido solidoRotacionado = new Solido(this);
+//    Solido rotacionaSolido(float angulo) {
+//        Solido solidoRotacionado = new Solido(this);
+//        for (Poligono p : faces) {
+//            solidoRotacionado.faces.add(p.rotacionaPoligono(angulo));
+//        }
+//        return solidoRotacionado;
+//    }
+
+    Solido projetaSolido() {
+        Solido solidoProjetado = new Solido(this);
         for (Poligono p : faces) {
-            solidoRotacionado.faces.add(p.rotacionaPoligono(angulo));
+            solidoProjetado.faces.add(p.projetaPoligono());
         }
-        return solidoRotacionado;
+        return solidoProjetado;
     }
 
     @Override

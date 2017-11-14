@@ -76,7 +76,7 @@ class preenchimentoPoligonos {
                 if (poligono.isClosed()) {
                     poligono = new Poligono();
                 }
-                poligono.addPonto((int) INTERFACE.xClique, (int) INTERFACE.yClique);
+                poligono.addPonto((int) INTERFACE.xClique, (int) INTERFACE.yClique, 0);
 
                 INTERFACE.limpaAcao();
             }
