@@ -74,38 +74,51 @@ class ModelagemCubo {
         cubo.adicionaPonto(max, min, max);
         cubo.closeFaceAtual();
 
-//        angX = 0;
-//        angY = 0;
+        int c = min + (max - min) / 2;
+
+        cubo.setAncora(c, c, c);
+
         deveSair = false;
     }
 
     private void verificaTecla() {
-        switch (INTERFACE.key_pressed)
-        {
+        switch (INTERFACE.key_pressed) {
             case GLFW_KEY_ESCAPE:
                 deveSair = true;
                 break;
             case GLFW_KEY_RIGHT:
-//                angY = angY + 0.25f;
-                cubo.rotaciona(0,0.25f);
+                cubo.rotaciona(0, 0.25f);
                 break;
-            case  GLFW_KEY_LEFT:
-//                angY = angY - 0.25f;
-                cubo.rotaciona(0,-0.25f);
+            case GLFW_KEY_LEFT:
+                cubo.rotaciona(0, -0.25f);
 
                 break;
-            case  GLFW_KEY_UP:
-//                angX = angX + 0.25f;
-                cubo.rotaciona(0.25f,0);
+            case GLFW_KEY_UP:
+                cubo.rotaciona(0.25f, 0);
 
                 break;
-            case  GLFW_KEY_DOWN:
-//                angX = angX - 0.25f;
-                cubo.rotaciona(-0.25f,0);
+            case GLFW_KEY_DOWN:
+                cubo.rotaciona(-0.25f, 0);
 
                 break;
-            case  GLFW_KEY_D:
-                cubo.translada(5, 0, 0);
+            case GLFW_KEY_D:
+                cubo.translada(10, 0, 0);
+                break;
+            case GLFW_KEY_A:
+                cubo.translada(-10, 0, 0);
+                break;
+            case GLFW_KEY_W:
+                cubo.translada(0, -10, 0);
+                break;
+            case GLFW_KEY_S:
+                cubo.translada(0, 10, 0);
+                break;
+            case GLFW_KEY_Z:
+                cubo.translada(0, 0, 10);
+                break;
+            case GLFW_KEY_X:
+                cubo.translada(0, 0, -10);
+                break;
         }
     }
 

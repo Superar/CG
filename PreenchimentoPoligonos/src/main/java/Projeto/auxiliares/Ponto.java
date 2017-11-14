@@ -4,12 +4,12 @@ import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
 
 public class Ponto {
-    private int x, y, z;
+    private float x, y, z;
 
     private INDArray matrizProjecao;
     private static final float FOCALD = -1000;
 
-    public Ponto(int x, int y, int z) {
+    public Ponto(float x, float y, float z) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -22,15 +22,27 @@ public class Ponto {
     }
 
     public int getX() {
-        return this.x;
+        return (int)this.x;
     }
 
     public int getY() {
-        return this.y;
+        return (int)this.y;
     }
 
     public int getZ() {
-        return this.z;
+        return (int)this.z;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public void setZ(int z) {
+        this.z = z;
     }
 
     public Ponto projetaPonto() {
@@ -52,15 +64,15 @@ public class Ponto {
 
         INDArray matrizRotacao = Nd4j.create(new float[]{ cos_y, 0, sen_y, 0,
                                                           sen_x*sen_y, cos_x, -sen_x*cos_y, 0,
-                                                          cos_x*(-sen_y), sen_x, cos_x*cos_y, 0,
+                                                          -cos_x*sen_y, sen_x, cos_x*cos_y, 0,
                                                           0, 0, 0, 1},
                                              new int[]{4, 4});
         INDArray ponto = Nd4j.create(new float[]{this.x, this.y, this.z, 1}, new int[]{4, 1});
         INDArray pontoRotacionado = matrizRotacao.mmul(ponto);
 
-        this.x = pontoRotacionado.getInt(0,0);
-        this.y = pontoRotacionado.getInt(1,0);
-        this.z = pontoRotacionado.getInt(2,0);
+        this.x = pontoRotacionado.getFloat(0,0);
+        this.y = pontoRotacionado.getFloat(1,0);
+        this.z = pontoRotacionado.getFloat(2,0);
 
 //        return new Ponto(pontoRotacionado.getInt(0, 0),
 //                         pontoRotacionado.getInt(1, 0),

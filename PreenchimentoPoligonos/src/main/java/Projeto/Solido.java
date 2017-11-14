@@ -2,19 +2,24 @@ package Projeto;
 
 import java.util.ArrayList;
 
+import Projeto.auxiliares.Ponto;
+
 class Solido {
 
     private ArrayList<Poligono> faces;
+    Ponto ancora;
     private Poligono faceAtual;
 
-    Solido () {
+    Solido() {
+        this.ancora = new Ponto(0,0,0);
         faces = new ArrayList<Poligono>();
         faceAtual = new Poligono();
     }
 
-    private Solido (Solido s) {
+    private Solido(Solido s) {
         this.faces = new ArrayList<Poligono>();
         this.faceAtual = s.faceAtual;
+        this.ancora = s.ancora;
     }
 
     void adicionaPonto(int x, int y, int z) {
@@ -27,16 +32,24 @@ class Solido {
         faceAtual = new Poligono();
     }
 
-    void setCorFaceAtual(float red, float green, float blue)
-    {
+    void setAncora(int x, int y, int z){
+        this.ancora.setX(x);
+        this.ancora.setY(y);
+        this.ancora.setZ(z);
+    }
+
+    void setCorFaceAtual(float red, float green, float blue) {
         faceAtual.cor.setCor(red, green, blue);
     }
 
     void rotaciona(float angulo_x, float angulo_y) {
+        this.translada(-ancora.getX(), -ancora.getY(), -ancora.getZ());
 //        Solido solidoRotacionado = new Solido(this);
-        for (Poligono p : faces) {
+        for (Poligono p : this.faces) {
             p.rotaciona(angulo_x, angulo_y);
         }
+        this.translada(ancora.getX(), ancora.getY(), ancora.getZ());
+
     }
 
     void translada(int dx, int dy, int dz) {
