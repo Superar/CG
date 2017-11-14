@@ -2,7 +2,6 @@ package Projeto;
 
 import Projeto.auxiliares.GerenciadorInterface;
 
-import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 
 class ModelagemCubo {
@@ -84,8 +83,11 @@ class ModelagemCubo {
                 INTERFACE.limpaAcao();
             }
 
-            cubo.rotacionaSolido(ang); // TODO: Corrigir rotacao do solido
-            for (Poligono p : cubo.faces) {
+            Solido cuboRotacionado = cubo.rotacionaSolido(ang);
+
+            // TODO: Corrigir desenho da rotacao. Nao esta desenhando correto, mas esta rotacionando.
+            System.out.println(cuboRotacionado);
+            for (Poligono p : cuboRotacionado.faces) {
                 p.desenha();
             }
             ang += 0.5f;

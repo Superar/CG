@@ -25,6 +25,16 @@ class Poligono {
         cor = new Cor();
     }
 
+    private Poligono(Poligono p) {
+        this.pontos = new ArrayList<>();
+
+        this.scanline = p.scanline;
+        this.closed = p.closed;
+        this.cor = p.cor;
+        this.maxLine = p.maxLine;
+        this.minLine = p.minLine;
+    }
+
     void addPonto(int x, int y) {
 
         Ponto p1 = new Ponto(x, y);
@@ -89,9 +99,8 @@ class Poligono {
         }
     }
 
-    // TODO: Melhorar a rotacao de poligono. Nao esta alterando os pontos do poligono depois do calculo
-    void rotacionaPoligono(float angulo) {
-        ArrayList<Ponto> pontosRotacionados = new ArrayList<>();
+    Poligono rotacionaPoligono(float angulo) {
+        Poligono polRotacionado = new Poligono(this);
         INDArray matrizRotacao = Nd4j.create(new float[]{(float) Math.cos(angulo), (float) -Math.sin((double)angulo), 0,
                                                          (float) Math.sin(angulo), (float) Math.cos(angulo), 0,
                                                          0, 0, 1},
@@ -99,8 +108,21 @@ class Poligono {
         for (Ponto p : pontos) {
             INDArray ponto = Nd4j.create(new float[]{(float)p.getX(), p.getY(), 1}, new int[]{3, 1});
             INDArray pontoRotacionado = matrizRotacao.mmul(ponto);
-            pontosRotacionados.add(new Ponto(pontoRotacionado.getInt(0, 0), pontoRotacionado.getInt(1, 0)));
+            polRotacionado.pontos.add(new Ponto(pontoRotacionado.getInt(0, 0),
+                                                pontoRotacionado.getInt(1, 0)));
         }
-        pontos = pontosRotacionados;
+        return polRotacionado;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder s = new StringBuilder("[ ");
+        for (int i = 0; i < pontos.size() - 1; i++) {
+            s.append(pontos.get(i));
+            s.append(", ");
+        }
+        s.append(pontos.get(pontos.size() - 1));
+        s.append(" ]");
+        return s.toString();
     }
 }

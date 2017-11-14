@@ -22,6 +22,12 @@ class Solido {
         faceAtual = new Poligono();
     }
 
+    private Solido (Solido s) {
+        this.matrizProjecao = s.matrizProjecao;
+        this.faces = new ArrayList<Poligono>();
+        this.faceAtual = s.faceAtual;
+    }
+
     void adicionaPonto(int x, int y, int z) {
         INDArray ponto = Nd4j.create(new float[]{x, y, z, 1}, new int[]{4, 1});
         INDArray pontoProjetado = matrizProjecao.mmul(ponto);
@@ -41,10 +47,24 @@ class Solido {
         faceAtual.cor.setCor(red, green, blue);
     }
 
-    // TODO Melhorar rotacao de poligono. Nao esta alterando nada
-    void rotacionaSolido(float angulo) {
+    Solido rotacionaSolido(float angulo) {
+        Solido solidoRotacionado = new Solido(this);
         for (Poligono p : faces) {
-            p.rotacionaPoligono(angulo);
+            solidoRotacionado.faces.add(p.rotacionaPoligono(angulo));
         }
+        return solidoRotacionado;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        for (int i = 0; i < faces.size(); i++) {
+            s.append("Face: ");
+            s.append(i);
+            s.append(" - ");
+            s.append(faces.get(i));
+            s.append("\n");
+        }
+        return s.toString();
     }
 }
