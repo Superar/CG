@@ -4,6 +4,10 @@ import Projeto.auxiliares.GerenciadorInterface;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL11;
+import sun.font.TrueTypeFont;
+import Projeto.auxiliares.SimpleText;
+import java.awt.*;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
@@ -113,17 +117,22 @@ public class Projeto {
 
             switch (estado) {
                 case MENU:
+                    desenhaMenu();
                     if (INTERFACE.acao == GerenciadorInterface.Acao.TECLADO_PRESS) {
                         verificaTeclaMenu();
                         INTERFACE.limpaAcao();
                     }
                     break;
                 case POLIGONOS:
+                    GL11.glColor3f(1,1,1);
+                    SimpleText.drawString("Aperte ESQ para voltar", INTERFACE.getWindowWidth()-200,INTERFACE.getWindowHeight());
                     if (!Poligonos.render()) {
                         estado = Estados.MENU;
                     }
                     break;
                 case MODELAGEM:
+                    GL11.glColor3f(1,1,1);
+                    SimpleText.drawString("Aperte ESQ para voltar", INTERFACE.getWindowWidth()-200,INTERFACE.getWindowHeight());
                     if (!Modelagem.render()) {
                         estado = Estados.MENU;
                     }
@@ -133,6 +142,14 @@ public class Projeto {
             glfwSwapBuffers(window); // Desenha o que ta no buffer na tela
             glfwPollEvents(); // Registra os eventos
         }
+    }
+
+    void desenhaMenu(){
+        GL11.glColor3f(1,1,1);
+        SimpleText.drawString("Menu", INTERFACE.getWindowWidth()/2,INTERFACE.getWindowHeight()/2-100);
+        SimpleText.drawString("p. Desenha poligono", INTERFACE.getWindowWidth()/2-60,INTERFACE.getWindowHeight()/2 - 60);
+        SimpleText.drawString("m. desenha um solido", INTERFACE.getWindowWidth()/2-60,INTERFACE.getWindowHeight()/2-40);
+        SimpleText.drawString("esq. sair", INTERFACE.getWindowWidth()/2-60,INTERFACE.getWindowHeight()/2 -20);
     }
 
     public static void main(String[] args) {
