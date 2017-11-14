@@ -2,12 +2,13 @@ package Projeto;
 
 import Projeto.auxiliares.GerenciadorInterface;
 
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
+import static org.lwjgl.glfw.GLFW.*;
 
 class ModelagemCubo {
     // Solido representando o cubo e angulo de rotacao
-    private Solido cuboProjetado;
-    private float ang;
+    private Solido cubo;
+    private float angX;
+    private float angY;
 
     // Utilitarios
     private GerenciadorInterface INTERFACE;
@@ -18,7 +19,7 @@ class ModelagemCubo {
     ModelagemCubo(GerenciadorInterface i) {
         INTERFACE = i;
 
-        Solido cubo = new Solido(); // TODO: Retirar a distancia focal da criacao do solido
+        cubo = new Solido();
 
         int min = INTERFACE.getWindowHeight() / 2 - 50;
         int max = INTERFACE.getWindowHeight() / 2 + 50;
@@ -71,34 +72,44 @@ class ModelagemCubo {
         cubo.adicionaPonto(max, min, max);
         cubo.closeFaceAtual();
 
-        System.out.println(cubo.projetaSolido());
-
-        cuboProjetado = cubo.projetaSolido();
-
-        ang = 1.0f;
+        angX = 0;
+        angY = 0;
         deveSair = false;
     }
 
-    boolean render() {
+    private void verificaTecla() {
+        switch (INTERFACE.key_pressed)
+        {
+            case GLFW_KEY_ESCAPE:
+                deveSair = true;
+                break;
+            case GLFW_KEY_RIGHT:
+                angY = angY + 0.25f;
+                break;
+            case  GLFW_KEY_LEFT:
+                angY = angY - 0.25f;
+                break;
+            case  GLFW_KEY_UP:
+                angX = angX + 0.25f;
+                break;
+            case  GLFW_KEY_DOWN:
+                angX = angX - 0.25f;
+        }
+    }
 
+    boolean render() {
         if (deveSair) {
             deveSair = false;
             return false;
         } else {
-            if (INTERFACE.acao == GerenciadorInterface.Acao.TECLADO_PRESS && INTERFACE.key_pressed == GLFW_KEY_ESCAPE) {
-                deveSair = true;
+            if (INTERFACE.acao == GerenciadorInterface.Acao.TECLADO_PRESS) {
+                verificaTecla();
                 INTERFACE.limpaAcao();
             }
 
-//            Solido cuboRotacionado = cubo.rotacionaSolido(ang);
-
             // TODO: Corrigir desenho da rotacao. Nao esta desenhando correto, mas esta rotacionando.
-//            System.out.println(cuboRotacionado);
-            for (Poligono p : cuboProjetado.faces) {
-                p.projetaPoligono().desenha();
-            }
-            ang += 0.5f;
-
+            Solido cuboRotacionado = cubo.rotacionaSolido(angX, 1.0f, 0, 0).rotacionaSolido(angY, 0, 1.0f, 0);
+            cuboRotacionado.desenha();
             return true;
         }
     }

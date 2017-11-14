@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 class Solido {
 
-    ArrayList<Poligono> faces;
+    private ArrayList<Poligono> faces;
     private Poligono faceAtual;
 
     Solido () {
@@ -32,20 +32,24 @@ class Solido {
         faceAtual.cor.setCor(red, green, blue);
     }
 
-//    Solido rotacionaSolido(float angulo) {
-//        Solido solidoRotacionado = new Solido(this);
-//        for (Poligono p : faces) {
-//            solidoRotacionado.faces.add(p.rotacionaPoligono(angulo));
-//        }
-//        return solidoRotacionado;
-//    }
+    Solido rotacionaSolido(float angulo, float x, float y, float z) {
+        Solido solidoRotacionado = new Solido(this);
+        for (Poligono p : faces) {
+            solidoRotacionado.faces.add(p.rotacionaPoligono(angulo, x, y, z));
+        }
+        return solidoRotacionado;
+    }
 
-    Solido projetaSolido() {
+    private Solido projetaSolido() {
         Solido solidoProjetado = new Solido(this);
         for (Poligono p : faces) {
             solidoProjetado.faces.add(p.projetaPoligono());
         }
         return solidoProjetado;
+    }
+
+    void desenha() {
+        for (Poligono p : this.projetaSolido().faces) p.desenha();
     }
 
     @Override

@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import Projeto.auxiliares.Cor;
 import Projeto.auxiliares.Ponto;
-import org.nd4j.linalg.api.ndarray.INDArray;
-import org.nd4j.linalg.factory.Nd4j;
 
 class Poligono {
     private ArrayList<Ponto> pontos;
@@ -28,11 +26,9 @@ class Poligono {
     private Poligono(Poligono p) {
         this.pontos = new ArrayList<>();
 
-        this.scanline = p.scanline;
+        this.scanline = new Scanline();
         this.closed = p.closed;
         this.cor = p.cor;
-        this.maxLine = p.maxLine;
-        this.minLine = p.minLine;
     }
 
     void addPonto(int x, int y, int z) {
@@ -102,25 +98,21 @@ class Poligono {
     Poligono projetaPoligono() {
         Poligono poligonoProjetado = new Poligono(this);
         for (Ponto p : this.pontos) {
-            poligonoProjetado.pontos.add(p.projetaPonto());
+            poligonoProjetado.addPonto(p.projetaPonto().getX(),
+                                       p.projetaPonto().getY(),
+                                       p.projetaPonto().getZ());
         }
         return poligonoProjetado;
     }
 
-//    Poligono rotacionaPoligono(float angulo) {
-//        Poligono polRotacionado = new Poligono(this);
-//        INDArray matrizRotacao = Nd4j.create(new float[]{(float) Math.cos(angulo), (float) -Math.sin((double)angulo), 0,
-//                                                         (float) Math.sin(angulo), (float) Math.cos(angulo), 0,
-//                                                         0, 0, 1},
-//                                             new int[]{3, 3});
-//        for (Ponto p : pontos) {
-//            INDArray ponto = Nd4j.create(new float[]{(float)p.getX(), p.getY(), 1}, new int[]{3, 1});
-//            INDArray pontoRotacionado = matrizRotacao.mmul(ponto);
-//            polRotacionado.pontos.add(new Ponto(pontoRotacionado.getInt(0, 0),
-//                                                pontoRotacionado.getInt(1, 0)));
-//        }
-//        return polRotacionado;
-//    }
+    Poligono rotacionaPoligono(float angulo, float x, float y, float z) {
+        Poligono polRotacionado = new Poligono(this);
+        for (Ponto p : pontos) {
+            Ponto pontoProjetado = p.rotacionaPonto(angulo, x, y, z);
+            polRotacionado.addPonto(pontoProjetado.getX(), pontoProjetado.getY(), pontoProjetado.getZ());
+        }
+        return polRotacionado;
+    }
 
     @Override
     public String toString() {
