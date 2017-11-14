@@ -1,14 +1,16 @@
 package Projeto;
 
 import Projeto.auxiliares.GerenciadorInterface;
+import Projeto.auxiliares.Ponto;
 
 import static org.lwjgl.glfw.GLFW.*;
 
 class ModelagemCubo {
     // Solido representando o cubo e angulo de rotacao
     private Solido cubo;
-    private float angX;
-    private float angY;
+//    private float angX;
+//    private float angY;
+//    private int translacao_x = 0;
 
     // Utilitarios
     private GerenciadorInterface INTERFACE;
@@ -72,8 +74,8 @@ class ModelagemCubo {
         cubo.adicionaPonto(max, min, max);
         cubo.closeFaceAtual();
 
-        angX = 0;
-        angY = 0;
+//        angX = 0;
+//        angY = 0;
         deveSair = false;
     }
 
@@ -84,16 +86,26 @@ class ModelagemCubo {
                 deveSair = true;
                 break;
             case GLFW_KEY_RIGHT:
-                angY = angY + 0.25f;
+//                angY = angY + 0.25f;
+                cubo.rotaciona(0,0.25f);
                 break;
             case  GLFW_KEY_LEFT:
-                angY = angY - 0.25f;
+//                angY = angY - 0.25f;
+                cubo.rotaciona(0,-0.25f);
+
                 break;
             case  GLFW_KEY_UP:
-                angX = angX + 0.25f;
+//                angX = angX + 0.25f;
+                cubo.rotaciona(0.25f,0);
+
                 break;
             case  GLFW_KEY_DOWN:
-                angX = angX - 0.25f;
+//                angX = angX - 0.25f;
+                cubo.rotaciona(-0.25f,0);
+
+                break;
+            case  GLFW_KEY_D:
+                cubo.translada(5, 0, 0);
         }
     }
 
@@ -107,9 +119,12 @@ class ModelagemCubo {
                 INTERFACE.limpaAcao();
             }
 
-            // TODO: Corrigir desenho da rotacao. Nao esta desenhando correto, mas esta rotacionando.
-            Solido cuboRotacionado = cubo.rotacionaSolido(angX, 1.0f, 0, 0).rotacionaSolido(angY, 0, 1.0f, 0);
-            cuboRotacionado.desenha();
+            cubo.desenha();
+
+//            // TODO: Corrigir desenho da rotacao. Nao esta desenhando correto, mas esta rotacionando.
+//            Solido cuboRotacionado = cubo.rotacionaSolido(angX, 1.0f, 0, 0).rotacionaSolido(angY, 0, 1.0f, 0);
+//            cuboRotacionado.transladaSolido(translacao_x,0,0).desenha();
+//            cuboRotacionado.desenha();
             return true;
         }
     }

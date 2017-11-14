@@ -105,13 +105,25 @@ class Poligono {
         return poligonoProjetado;
     }
 
-    Poligono rotacionaPoligono(float angulo, float x, float y, float z) {
-        Poligono polRotacionado = new Poligono(this);
-        for (Ponto p : pontos) {
-            Ponto pontoProjetado = p.rotacionaPonto(angulo, x, y, z);
-            polRotacionado.addPonto(pontoProjetado.getX(), pontoProjetado.getY(), pontoProjetado.getZ());
+    void rotaciona(float angulo_x, float angulo_y) {
+//        Poligono polRotacionado = new Poligono(this);
+        for (Ponto p : this.pontos) {
+            p.rotaciona(angulo_x, angulo_y);
+//            polRotacionado.addPonto(pontoProjetado.getX(), pontoProjetado.getY(), pontoProjetado.getZ());
         }
-        return polRotacionado;
+//        return polRotacionado;
+    }
+
+    void translada(int dx, int dy, int dz) {
+        Poligono polTransladado = new Poligono(this);
+
+        for (Ponto p : pontos) {
+            p.transladaPonto(dx, dy, dz);
+
+//            polTransladado.addPonto(pontoTranladado.getX(), pontoTranladado.getY(), pontoTranladado.getZ());
+        }
+
+//        return polTransladado;
     }
 
     @Override

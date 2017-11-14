@@ -32,12 +32,18 @@ class Solido {
         faceAtual.cor.setCor(red, green, blue);
     }
 
-    Solido rotacionaSolido(float angulo, float x, float y, float z) {
-        Solido solidoRotacionado = new Solido(this);
+    void rotaciona(float angulo_x, float angulo_y) {
+//        Solido solidoRotacionado = new Solido(this);
         for (Poligono p : faces) {
-            solidoRotacionado.faces.add(p.rotacionaPoligono(angulo, x, y, z));
+            p.rotaciona(angulo_x, angulo_y);
         }
-        return solidoRotacionado;
+    }
+
+    void translada(int dx, int dy, int dz) {
+//        Solido solidoTransladado = new Solido(this);
+        for (Poligono p : faces) {
+            p.translada(dx, dy, dz);
+        }
     }
 
     private Solido projetaSolido() {
@@ -49,7 +55,8 @@ class Solido {
     }
 
     void desenha() {
-        for (Poligono p : this.projetaSolido().faces) p.desenha();
+        for (Poligono p : this.projetaSolido().faces)
+            p.desenha();
     }
 
     @Override
