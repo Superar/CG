@@ -20,52 +20,55 @@ class ModelagemCubo {
 
         Solido cubo = new Solido(); // TODO: Retirar a distancia focal da criacao do solido
 
-        // Face traseira. Z fixo em 100. Verde.
+        int min = INTERFACE.getWindowHeight() / 2 - 50;
+        int max = INTERFACE.getWindowHeight() / 2 + 50;
+
+        // Face traseira. Z fixo em min. Verde.
         cubo.setCorFaceAtual(0, 1.0f, 0);
-        cubo.adicionaPonto(100, 100, 100);
-        cubo.adicionaPonto(100, 250, 100);
-        cubo.adicionaPonto(250, 250, 100);
-        cubo.adicionaPonto(250, 100, 100);
+        cubo.adicionaPonto(min, min, min);
+        cubo.adicionaPonto(min, max, min);
+        cubo.adicionaPonto(max, max, min);
+        cubo.adicionaPonto(max, min, min);
         cubo.closeFaceAtual();
 
-        // Face inferior. Y fixo em 250. Laranja
+        // Face inferior. Y fixo em max. Laranja
         cubo.setCorFaceAtual(1.0f, 0.5f, 0);
-        cubo.adicionaPonto(100, 250, 100);
-        cubo.adicionaPonto(100, 250, 250);
-        cubo.adicionaPonto(250, 250, 250);
-        cubo.adicionaPonto(250, 250, 100);
+        cubo.adicionaPonto(min, max, min);
+        cubo.adicionaPonto(min, max, max);
+        cubo.adicionaPonto(max, max, max);
+        cubo.adicionaPonto(max, max, min);
         cubo.closeFaceAtual();
 
-        // Face esquerda. X fixo em 100. Vermelho.
+        // Face esquerda. X fixo em min. Vermelho.
         cubo.setCorFaceAtual(1.0f, 0, 0);
-        cubo.adicionaPonto(100, 100, 100);
-        cubo.adicionaPonto(100, 250, 100);
-        cubo.adicionaPonto(100, 250, 250);
-        cubo.adicionaPonto(100, 100, 250);
+        cubo.adicionaPonto(min, min, min);
+        cubo.adicionaPonto(min, max, min);
+        cubo.adicionaPonto(min, max, max);
+        cubo.adicionaPonto(min, min, max);
         cubo.closeFaceAtual();
 
-        // Face direita. X fixo em 250. Magenta.
+        // Face direita. X fixo em max. Magenta.
         cubo.setCorFaceAtual(1.0f, 0, 1.0f);
-        cubo.adicionaPonto(250, 100, 100);
-        cubo.adicionaPonto(250, 250, 100);
-        cubo.adicionaPonto(250, 250, 250);
-        cubo.adicionaPonto(250, 100, 250);
+        cubo.adicionaPonto(max, min, min);
+        cubo.adicionaPonto(max, max, min);
+        cubo.adicionaPonto(max, max, max);
+        cubo.adicionaPonto(max, min, max);
         cubo.closeFaceAtual();
 
-        // Face superior. Y fixo em 100. Amarelo
+        // Face superior. Y fixo em min. Amarelo
         cubo.setCorFaceAtual(1.0f, 1.0f, 0);
-        cubo.adicionaPonto(100, 100, 100);
-        cubo.adicionaPonto(100, 100, 250);
-        cubo.adicionaPonto(250, 100, 250);
-        cubo.adicionaPonto(250, 100, 100);
+        cubo.adicionaPonto(min, min, min);
+        cubo.adicionaPonto(min, min, max);
+        cubo.adicionaPonto(max, min, max);
+        cubo.adicionaPonto(max, min, min);
         cubo.closeFaceAtual();
 
-        // Face frontal. Z fixo em 250. Azul.
+        // Face frontal. Z fixo em max. Azul.
         cubo.setCorFaceAtual(0, 0, 1.0f);
-        cubo.adicionaPonto(100, 100, 250);
-        cubo.adicionaPonto(100, 250, 250);
-        cubo.adicionaPonto(250, 250, 250);
-        cubo.adicionaPonto(250, 100, 250);
+        cubo.adicionaPonto(min, min, max);
+        cubo.adicionaPonto(min, max, max);
+        cubo.adicionaPonto(max, max, max);
+        cubo.adicionaPonto(max, min, max);
         cubo.closeFaceAtual();
 
         System.out.println(cubo.projetaSolido());

@@ -3,6 +3,7 @@ package Projeto.auxiliares;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.*;
 
+import java.nio.Buffer;
 import java.nio.DoubleBuffer;
 import java.nio.IntBuffer;
 
@@ -112,5 +113,19 @@ public class GerenciadorInterface {
 
     public void limpaAcao() {
         this.acao = null;
+    }
+
+    public int getWindowWidth() {
+        IntBuffer width = BufferUtils.createIntBuffer(1);
+        IntBuffer height = BufferUtils.createIntBuffer(1);
+        glfwGetWindowSize(window, width, height);
+        return width.get(0);
+    }
+
+    public int getWindowHeight() {
+        IntBuffer width = BufferUtils.createIntBuffer(1);
+        IntBuffer height = BufferUtils.createIntBuffer(1);
+        glfwGetWindowSize(window, width, height);
+        return height.get(0);
     }
 }
