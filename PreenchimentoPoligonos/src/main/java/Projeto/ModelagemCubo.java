@@ -109,6 +109,7 @@ class ModelagemCubo {
 
             // TODO: Corrigir desenho da rotacao. Nao esta desenhando correto, mas esta rotacionando.
             Solido cuboRotacionado = cubo.rotacionaSolido(angX, 1.0f, 0, 0).rotacionaSolido(angY, 0, 1.0f, 0);
+            cuboRotacionado.ordenaFaces();
             cuboRotacionado.desenha();
             return true;
         }

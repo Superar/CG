@@ -62,4 +62,11 @@ public class Ponto {
     public String toString() {
         return "(" + this.x + ", " + this.y + ", " + this.z + ")";
     }
+
+    public double distancia(Ponto p){
+        double x = Math.pow(this.x - p.x, 2);
+        double y = Math.pow(this.y - p.y, 2);
+        double z = Math.pow(this.z - p.z, 2);
+        return Math.sqrt(x+y+z);
+    }
 }

@@ -125,4 +125,14 @@ class Poligono {
         s.append(" ]");
         return s.toString();
     }
+
+    public double getMaiorDistancia(Ponto p){
+        double maior = -1;
+        for(Ponto ponto : this.pontos){
+            maior = Math.max(maior, ponto.distancia(p));
+        }
+        return maior;
+    }
+
+
 }

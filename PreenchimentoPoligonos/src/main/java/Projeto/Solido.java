@@ -1,5 +1,7 @@
 package Projeto;
 
+import Projeto.auxiliares.Ponto;
+
 import java.util.ArrayList;
 
 class Solido {
@@ -64,4 +66,27 @@ class Solido {
         }
         return s.toString();
     }
+
+    void ordenaFaces(){
+        ArrayList<Poligono> facesOrdenadas = new ArrayList<Poligono>(this.faces.size());
+
+        int size = 0;
+        double d,e;
+
+        for(Poligono p : this.faces){
+            Ponto ponto = new Ponto(0, 0, 1000);
+            d = p.getMaiorDistancia(ponto);
+            int i;
+            for(i =0; i < size; i ++){
+                e = facesOrdenadas.get(i).getMaiorDistancia(ponto);
+                if(!(e>=d)) {
+                    break;
+                }
+            }
+            facesOrdenadas.add(i,p);
+            size++;
+        }
+        this.faces = facesOrdenadas;
+    }
+
 }
