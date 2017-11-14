@@ -4,8 +4,6 @@ import Projeto.auxiliares.Ponto;
 
 import java.util.ArrayList;
 
-import Projeto.auxiliares.Ponto;
-
 class Solido {
 
     private ArrayList<Poligono> faces;
@@ -46,16 +44,14 @@ class Solido {
 
     void rotaciona(float angulo_x, float angulo_y) {
         this.translada(-ancora.getX(), -ancora.getY(), -ancora.getZ());
-//        Solido solidoRotacionado = new Solido(this);
+
         for (Poligono p : this.faces) {
             p.rotaciona(angulo_x, angulo_y);
         }
         this.translada(ancora.getX(), ancora.getY(), ancora.getZ());
-
     }
 
     void translada(int dx, int dy, int dz) {
-//        Solido solidoTransladado = new Solido(this);
         for (Poligono p : faces) {
             p.translada(dx, dy, dz);
         }

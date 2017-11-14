@@ -1,16 +1,12 @@
 package Projeto;
 
 import Projeto.auxiliares.GerenciadorInterface;
-import Projeto.auxiliares.Ponto;
 
 import static org.lwjgl.glfw.GLFW.*;
 
 class ModelagemCubo {
     // Solido representando o cubo e angulo de rotacao
     private Solido cubo;
-//    private float angX;
-//    private float angY;
-//    private int translacao_x = 0;
 
     // Utilitarios
     private GerenciadorInterface INTERFACE;
