@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import static org.lwjgl.glfw.GLFW.*;
 
-class preenchimentoPoligonos {
+class PreenchimentoPoligonos {
     // Variaveis para desenho e controle dos poligonos
     private ArrayList<Poligono> objetos;
     private Poligono poligono;
@@ -19,7 +19,7 @@ class preenchimentoPoligonos {
     // Flag
     private boolean deveSair;
 
-    preenchimentoPoligonos(GerenciadorInterface i) {
+    PreenchimentoPoligonos(GerenciadorInterface i) {
         INTERFACE = i;
         lineDrawer = new BresenhamLineDrawer();
 

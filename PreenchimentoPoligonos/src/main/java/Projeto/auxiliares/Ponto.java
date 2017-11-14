@@ -4,12 +4,12 @@ import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
 
 public class Ponto {
-    private int x, y, z;
+    private float x, y, z;
 
     private INDArray matrizProjecao;
     private static final float FOCALD = -1000;
 
-    public Ponto(int x, int y, int z) {
+    public Ponto(float x, float y, float z) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -22,15 +22,27 @@ public class Ponto {
     }
 
     public int getX() {
-        return this.x;
+        return (int)this.x;
     }
 
     public int getY() {
-        return this.y;
+        return (int)this.y;
     }
 
     public int getZ() {
-        return this.z;
+        return (int)this.z;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public void setZ(int z) {
+        this.z = z;
     }
 
     public Ponto projetaPonto() {
@@ -43,19 +55,34 @@ public class Ponto {
                          pontoProjetado.getInt(2, 0));
     }
 
-    public Ponto rotacionaPonto(float angulo, float x, float y, float z) {
-        float cos = (float) Math.cos(angulo);
-        float sen = (float) Math.sin(angulo);
-        INDArray matrizRotacao = Nd4j.create(new float[]{ x*x*(1-cos)+cos, x*y*(1-cos)-z*sen, x*z*(1-cos)+y*sen, 0,
-                                                          y*x*(1-cos)+z*sen, y*y*(1-cos)+cos, y*z*(1-cos)-x*sen, 0,
-                                                          x*z*(1-cos)-y*sen, y*z*(1-cos)+x*sen, z*z*(1-cos)+cos, 0,
+    public void rotaciona(float angulo_x, float angulo_y) {
+        float cos_x = (float) Math.cos(angulo_x);
+        float sen_x = (float) Math.sin(angulo_x);
+
+        float cos_y = (float) Math.cos(angulo_y);
+        float sen_y = (float) Math.sin(angulo_y);
+
+        INDArray matrizRotacao = Nd4j.create(new float[]{ cos_y, 0, sen_y, 0,
+                                                          sen_x*sen_y, cos_x, -sen_x*cos_y, 0,
+                                                          -cos_x*sen_y, sen_x, cos_x*cos_y, 0,
                                                           0, 0, 0, 1},
                                              new int[]{4, 4});
         INDArray ponto = Nd4j.create(new float[]{this.x, this.y, this.z, 1}, new int[]{4, 1});
         INDArray pontoRotacionado = matrizRotacao.mmul(ponto);
-        return new Ponto(pontoRotacionado.getInt(0, 0),
-                         pontoRotacionado.getInt(1, 0),
-                         pontoRotacionado.getInt(2, 0));
+
+        this.x = pontoRotacionado.getFloat(0,0);
+        this.y = pontoRotacionado.getFloat(1,0);
+        this.z = pontoRotacionado.getFloat(2,0);
+
+//        return new Ponto(pontoRotacionado.getInt(0, 0),
+//                         pontoRotacionado.getInt(1, 0),
+//                         pontoRotacionado.getInt(2, 0));
+    }
+
+    public void transladaPonto(int dx, int dy, int dz) {
+        this.x += dx;
+        this.y += dy;
+        this.z += dz;
     }
 
     @Override

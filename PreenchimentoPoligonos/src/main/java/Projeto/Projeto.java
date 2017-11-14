@@ -32,7 +32,7 @@ public class Projeto {
     private static GerenciadorInterface INTERFACE;
 
     // Funcionalidades
-    private static preenchimentoPoligonos Poligonos;
+    private static PreenchimentoPoligonos Poligonos;
     private static ModelagemCubo Modelagem;
 
     // Estados
@@ -75,7 +75,7 @@ public class Projeto {
         INTERFACE = new GerenciadorInterface(window);
         INTERFACE.setupCallbacks();
 
-        Poligonos = new preenchimentoPoligonos(INTERFACE);
+        Poligonos = new PreenchimentoPoligonos(INTERFACE);
         Modelagem = new ModelagemCubo(INTERFACE);
 
         // Resolucao do monitor
