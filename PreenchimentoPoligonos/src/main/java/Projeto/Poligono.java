@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import Projeto.auxiliares.Cor;
 import Projeto.auxiliares.Ponto;
+import org.nd4j.linalg.api.ndarray.INDArray;
+import org.nd4j.linalg.factory.Nd4j;
 
 class Poligono {
     private ArrayList<Ponto> pontos;
@@ -85,5 +87,20 @@ class Poligono {
         } else {
             scanline.preenche(this.minLine, this.maxLine, cor);
         }
+    }
+
+    // TODO: Melhorar a rotacao de poligono. Nao esta alterando os pontos do poligono depois do calculo
+    void rotacionaPoligono(float angulo) {
+        ArrayList<Ponto> pontosRotacionados = new ArrayList<>();
+        INDArray matrizRotacao = Nd4j.create(new float[]{(float) Math.cos(angulo), (float) -Math.sin((double)angulo), 0,
+                                                         (float) Math.sin(angulo), (float) Math.cos(angulo), 0,
+                                                         0, 0, 1},
+                                             new int[]{3, 3});
+        for (Ponto p : pontos) {
+            INDArray ponto = Nd4j.create(new float[]{(float)p.getX(), p.getY(), 1}, new int[]{3, 1});
+            INDArray pontoRotacionado = matrizRotacao.mmul(ponto);
+            pontosRotacionados.add(new Ponto(pontoRotacionado.getInt(0, 0), pontoRotacionado.getInt(1, 0)));
+        }
+        pontos = pontosRotacionados;
     }
 }

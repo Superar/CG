@@ -29,6 +29,7 @@ public class Projeto {
 
     // Funcionalidades
     private static preenchimentoPoligonos Poligonos;
+    private static ModelagemCubo Modelagem;
 
     // Estados
     private enum Estados {
@@ -71,6 +72,7 @@ public class Projeto {
         INTERFACE.setupCallbacks();
 
         Poligonos = new preenchimentoPoligonos(INTERFACE);
+        Modelagem = new ModelagemCubo(INTERFACE);
 
         // Resolucao do monitor
         GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
@@ -122,10 +124,9 @@ public class Projeto {
                     }
                     break;
                 case MODELAGEM:
-                    glBegin(GL_LINES);
-                    glVertex2i(200, 200);
-                    glVertex2i(300, 300);
-                    glEnd();
+                    if (!Modelagem.render()) {
+                        estado = Estados.MENU;
+                    }
                     break;
             }
 
