@@ -127,7 +127,7 @@ public class Projeto {
                     }
 
                     GL11.glColor3f(1,1,1);
-                    SimpleText.drawString("O botão esquerdo do Mouse seleciona os vertices do Poligono", 10,28);
+                    SimpleText.drawString("O botao esquerdo do Mouse seleciona os vertices do Poligono", 10,28);
                     SimpleText.drawString("A barra de espaço completa o Poligono", 10,INTERFACE.getWindowHeight()-28);
                     SimpleText.drawString("ESC volta para o menu", 10,INTERFACE.getWindowHeight()-8);
 
