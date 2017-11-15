@@ -125,7 +125,7 @@ public class Projeto {
                     break;
                 case POLIGONOS:
                     GL11.glColor3f(1,1,1);
-                    SimpleText.drawString("O botão esquerdo do Mouse seleciona os vertices do Poligono", 10,INTERFACE.getWindowHeight()-28);
+                    SimpleText.drawString("O botão esquerdo do Mouse seleciona os vertices do Poligono", 10,INTERFACE.getWindowHeight()-488);
                     SimpleText.drawString("A barra de espaço completa o Poligono", 10,INTERFACE.getWindowHeight()-28);
                     SimpleText.drawString("ESC volta para o menu", 10,INTERFACE.getWindowHeight()-8);
                     if (!Poligonos.render()) {
@@ -134,7 +134,7 @@ public class Projeto {
                     break;
                 case MODELAGEM:
                     GL11.glColor3f(1,1,1);
-                    SimpleText.drawString("As teclas w,s,z,x transladam o solido", 10,INTERFACE.getWindowHeight()-28);
+                    SimpleText.drawString("As teclas w,s,z,x transladam o solido", 10,INTERFACE.getWindowHeight()-48);
                     SimpleText.drawString("As setas do teclado rotacionam o solido", 10,INTERFACE.getWindowHeight()-28);
                     SimpleText.drawString("ESC volta para o menu", 10,INTERFACE.getWindowHeight()-8);
                     if (!Modelagem.render()) {
