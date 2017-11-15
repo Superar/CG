@@ -304,7 +304,7 @@ public class SimpleText {
 				for(int i=1;i<=7;i++)
 					GL11.glVertex2f(x+i, y-i);
 				for(int i=7;i>=1;i--)
-					GL11.glVertex2f(x+i, y-8-i);
+					GL11.glVertex2f(x+i, y-8+i);
 				x+=8;
 			}else if(c == 'y'){
 				GL11.glVertex2f(x+4, y);
