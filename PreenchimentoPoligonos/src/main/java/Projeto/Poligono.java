@@ -106,24 +106,15 @@ class Poligono {
     }
 
     void rotaciona(float angulo_x, float angulo_y) {
-//        Poligono polRotacionado = new Poligono(this);
         for (Ponto p : this.pontos) {
             p.rotaciona(angulo_x, angulo_y);
-//            polRotacionado.addPonto(pontoProjetado.getX(), pontoProjetado.getY(), pontoProjetado.getZ());
         }
-//        return polRotacionado;
     }
 
     void translada(int dx, int dy, int dz) {
-        Poligono polTransladado = new Poligono(this);
-
         for (Ponto p : pontos) {
             p.transladaPonto(dx, dy, dz);
-
-//            polTransladado.addPonto(pontoTranladado.getX(), pontoTranladado.getY(), pontoTranladado.getZ());
         }
-
-//        return polTransladado;
     }
 
     @Override
@@ -138,7 +129,7 @@ class Poligono {
         return s.toString();
     }
 
-    public double getMaiorDistancia(Ponto p){
+    double getMaiorDistancia(Ponto p){
         double maior = -1;
         for(Ponto ponto : this.pontos){
             maior = Math.max(maior, ponto.distancia(p));

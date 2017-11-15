@@ -148,7 +148,7 @@ public class Projeto {
         }
     }
 
-    void desenhaMenu(){
+    private void desenhaMenu(){
         GL11.glColor3f(1,1,1);
         SimpleText.drawString("Menu", INTERFACE.getWindowWidth()/2,INTERFACE.getWindowHeight()/2-25);
         SimpleText.drawString("p. Desenha poligono", INTERFACE.getWindowWidth()/2-72,INTERFACE.getWindowHeight()/2 - 5);

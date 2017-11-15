@@ -3,7 +3,6 @@ package Projeto.auxiliares;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.*;
 
-import java.nio.Buffer;
 import java.nio.DoubleBuffer;
 import java.nio.IntBuffer;
 

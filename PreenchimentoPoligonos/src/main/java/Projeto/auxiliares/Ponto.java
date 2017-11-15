@@ -73,10 +73,6 @@ public class Ponto {
         this.x = pontoRotacionado.getFloat(0,0);
         this.y = pontoRotacionado.getFloat(1,0);
         this.z = pontoRotacionado.getFloat(2,0);
-
-//        return new Ponto(pontoRotacionado.getInt(0, 0),
-//                         pontoRotacionado.getInt(1, 0),
-//                         pontoRotacionado.getInt(2, 0));
     }
 
     public void transladaPonto(int dx, int dy, int dz) {

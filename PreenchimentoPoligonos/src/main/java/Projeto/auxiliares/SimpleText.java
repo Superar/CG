@@ -75,7 +75,7 @@ public class SimpleText {
 					GL11.glVertex2f(x+1, y-i);
 				}
 				for(int i=1;i<=6;i++){
-					GL11.glVertex2f(x+i, y-0);
+					GL11.glVertex2f(x+i, y);
 					GL11.glVertex2f(x+i, y-8);
 				}
 				for(int i=2;i<=5;i++){
@@ -125,7 +125,7 @@ public class SimpleText {
 					GL11.glVertex2f(x+3, y-i);
 				}
 				for(int i=1;i<=5;i++){
-					GL11.glVertex2f(x+i, y-0);
+					GL11.glVertex2f(x+i, y);
 					GL11.glVertex2f(x+i, y-8);
 				}
 				x+=7;
@@ -134,7 +134,7 @@ public class SimpleText {
 					GL11.glVertex2f(x+6, y-i);
 				}
 				for(int i=2;i<=5;i++){
-					GL11.glVertex2f(x+i, y-0);
+					GL11.glVertex2f(x+i, y);
 				}
 				GL11.glVertex2f(x+1, y-3);
 				GL11.glVertex2f(x+1, y-2);
@@ -197,7 +197,7 @@ public class SimpleText {
 				}
 				for(int i=2;i<=6;i++){
 					GL11.glVertex2f(x+i, y-8);
-					GL11.glVertex2f(x+i, y-0);
+					GL11.glVertex2f(x+i, y);
 				}
 				x+=8;
 			}else if(c == 'p'){
@@ -219,7 +219,7 @@ public class SimpleText {
 				}
 				for(int i=2;i<=6;i++){
 					GL11.glVertex2f(x+i, y-8);
-					if(i != 6) GL11.glVertex2f(x+i, y-0);
+					if(i != 6) GL11.glVertex2f(x+i, y);
 				}
 				GL11.glVertex2f(x+4, y-3);
 				GL11.glVertex2f(x+5, y-2);
@@ -274,7 +274,7 @@ public class SimpleText {
 					GL11.glVertex2f(x+7, y-i);
 				}
 				for(int i=2;i<=6;i++){
-					GL11.glVertex2f(x+i, y-0);
+					GL11.glVertex2f(x+i, y);
 				}
 				x+=8;
 			}else if(c == 'v'){
@@ -441,7 +441,7 @@ public class SimpleText {
 				}
 				for(int i=2;i<=6;i++){
 					GL11.glVertex2f(x+i, y-8);
-					GL11.glVertex2f(x+i, y-0);
+					GL11.glVertex2f(x+i, y);
 				}
 				for(int i=2;i<=6;i++){
 					GL11.glVertex2f(x+i, y-4);
@@ -456,12 +456,12 @@ public class SimpleText {
 				}
 				for(int i=2;i<=6;i++){
 					GL11.glVertex2f(x+i, y-8);
-					GL11.glVertex2f(x+i, y-0);
+					GL11.glVertex2f(x+i, y);
 				}
 				for(int i=2;i<=6;i++){
 					GL11.glVertex2f(x+i, y-4);
 				}
-				GL11.glVertex2f(x+1, y-0);
+				GL11.glVertex2f(x+1, y);
 				x += 8;
 			}else if(c == '.'){
 				GL11.glVertex2f(x+1, y);
