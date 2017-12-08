@@ -1,8 +1,12 @@
 package simulacao.utils;
 
-import com.sun.prism.ps.Shader;
+import org.joml.Matrix4f;
+import org.lwjgl.system.MemoryStack;
 
 import java.io.InputStream;
+import java.nio.FloatBuffer;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 import static org.lwjgl.opengl.GL20.*;
@@ -13,11 +17,15 @@ public class ShaderProgram {
     private int vertexShaderId;
     private int fragmentShaderId;
 
+    private final Map<String, Integer> uniforms;
+
     public ShaderProgram() throws RuntimeException {
         programId = glCreateProgram();
         if (programId == 0) {
             throw new RuntimeException("Falha na criação do shader");
         }
+
+        uniforms = new HashMap<>();
     }
 
     private String loadResource(String filename) {
@@ -40,7 +48,7 @@ public class ShaderProgram {
         fragmentShaderId = createShader(loadResource(shader), GL_FRAGMENT_SHADER);
     }
 
-    protected int createShader(String shader, int shaderType) throws RuntimeException {
+    private int createShader(String shader, int shaderType) throws RuntimeException {
         int shaderId = glCreateShader(shaderType);
         if (shaderId == 0) {
             throw new RuntimeException("Falha na criação do shader: " + shaderType);
@@ -56,6 +64,20 @@ public class ShaderProgram {
         glAttachShader(programId, shaderId);
 
         return shaderId;
+    }
+
+    public void createUniform(String uniformName, Matrix4f value) throws RuntimeException {
+        int uniformLocation = glGetUniformLocation(programId, uniformName);
+        if (uniformLocation < 0) {
+            throw new RuntimeException("uniform não encontrado:" + uniformName);
+        }
+        uniforms.put(uniformName, uniformLocation);
+
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            FloatBuffer fb = stack.mallocFloat(16);
+            value.get(fb);
+            glUniformMatrix4fv(uniformLocation, false, fb);
+        }
     }
 
     public void link() throws RuntimeException {
@@ -78,11 +100,11 @@ public class ShaderProgram {
 
     }
 
-    public void bind() {
+    void bind() {
         glUseProgram(programId);
     }
 
-    public void unbind() {
+    void unbind() {
         glUseProgram(0);
     }
 

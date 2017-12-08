@@ -1,5 +1,6 @@
 package simulacao;
 
+import org.joml.Matrix4f;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
@@ -26,6 +27,8 @@ public class simulacao3D {
 
     private static GerenciadorInterface INTERFACE;
     private ShaderProgram SHADER;
+
+    Matrix4f perspectiveMatrix;
 
     private void init() {
         GLFWErrorCallback.createPrint(System.err).set();
@@ -63,7 +66,7 @@ public class simulacao3D {
         SHADER.createFragmentShader("/fragment.fs");
         SHADER.link();
 
-        Modelo modelo3d = new Modelo();
+        Modelo modelo3d = new Modelo(INTERFACE);
 
         while (!glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -78,6 +81,8 @@ public class simulacao3D {
     private void run() {
         init();
         loop();
+
+        SHADER.cleanup();
 
         // Destruicao da janela
         glfwFreeCallbacks(window);
