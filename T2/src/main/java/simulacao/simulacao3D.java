@@ -3,23 +3,14 @@ package simulacao;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
-import org.lwjgl.system.MemoryUtil;
 import simulacao.utils.GerenciadorInterface;
+import simulacao.utils.Modelo;
 import simulacao.utils.ShaderProgram;
-
-import java.nio.FloatBuffer;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL15.*;
-import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
-import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
-import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
-import static org.lwjgl.opengl.GL30.glBindVertexArray;
-import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 import static org.lwjgl.system.MemoryUtil.NULL;
-import static org.lwjgl.system.MemoryUtil.memFree;
 
 public class simulacao3D {
 
@@ -35,7 +26,6 @@ public class simulacao3D {
 
     private static GerenciadorInterface INTERFACE;
     private ShaderProgram SHADER;
-    private int vaoId;
 
     private void init() {
         GLFWErrorCallback.createPrint(System.err).set();
@@ -73,41 +63,12 @@ public class simulacao3D {
         SHADER.createFragmentShader("/fragment.fs");
         SHADER.link();
 
-        float[] vertices = new float[]{
-                0.0f, 0.5f, 0.0f,
-                -0.5f, -0.5f, 0.0f,
-                0.5f, -0.5f, 0.0f
-        };
-        FloatBuffer verticesBuffer = MemoryUtil.memAllocFloat(vertices.length);
-        verticesBuffer.put(vertices).flip();
-
-        vaoId = glGenVertexArrays();
-        glBindVertexArray(vaoId);
-
-        int vboId = glGenBuffers();
-        glBindBuffer(GL_ARRAY_BUFFER, vboId);
-        glBufferData(GL_ARRAY_BUFFER, verticesBuffer, GL_STATIC_DRAW);
-        memFree(verticesBuffer);
-
-        glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
-
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        glBindVertexArray(0);
+        Modelo modelo3d = new Modelo();
 
         while (!glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            SHADER.bind();
-
-            glBindVertexArray(vaoId);
-            glEnableVertexAttribArray(0);
-
-            glDrawArrays(GL_TRIANGLES, 0, 3);
-
-            glDisableVertexAttribArray(0);
-            glBindVertexArray(0);
-
-            SHADER.unbind();
+            modelo3d.render(SHADER);
 
             glfwSwapBuffers(window);
             glfwPollEvents();
