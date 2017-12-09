@@ -68,10 +68,17 @@ public class simulacao3D {
 
         Modelo modelo3d = new Modelo(INTERFACE);
 
+        float ang = 0.0f;
+
         while (!glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             modelo3d.render(SHADER);
+            modelo3d.rotaciona(modelo3d.rotacao.x,
+                    modelo3d.rotacao.y,
+                    modelo3d.rotacao.z + ang);
+
+            ang += 0.0025f;
 
             glfwSwapBuffers(window);
             glfwPollEvents();
