@@ -58,6 +58,9 @@ public class Modelo {
 
     Matrix4f worldMatrix;
 
+    Camera camera;
+    Matrix4f viewMatrix;
+
     public Modelo(GerenciadorInterface gerInterface) {
         shaderSetup = new ShaderSetup(vertices, indices, colours);
         INTERFACE = gerInterface;
@@ -69,6 +72,9 @@ public class Modelo {
         float aspectRatio = (float) INTERFACE.getWindowWidth() / INTERFACE.getWindowHeight();
         projectionMatrix = new Matrix4f().identity().perspective(FOV, aspectRatio, Z_NEAR, Z_FAR);
         setWorldMatrix();
+
+        camera = new Camera();
+        setViewMatrix();
     }
 
     public void render(ShaderProgram shader) {
@@ -76,6 +82,7 @@ public class Modelo {
 
         shader.createUniform("projectionMatrix", projectionMatrix);
         shader.createUniform("worldMatrix", worldMatrix);
+        shader.createUniform("viewMatrix", viewMatrix);
 
         glBindVertexArray(shaderSetup.getVaoId());
         glEnableVertexAttribArray(0);
@@ -114,5 +121,12 @@ public class Modelo {
                 rotateY((float) Math.toRadians(rotacao.y)).
                 rotateZ((float) Math.toRadians(rotacao.z)).
                 scale(escala);
+    }
+
+    private void setViewMatrix() {
+        viewMatrix = new Matrix4f().identity().
+                rotate((float)Math.toRadians(rotacao.x), new Vector3f(1, 0, 0)).
+                rotate((float)Math.toRadians(rotacao.y), new Vector3f(0, 1, 0)).
+                translate(-camera.posicao.x, -camera.posicao.y, -camera.posicao.z);
     }
 }
