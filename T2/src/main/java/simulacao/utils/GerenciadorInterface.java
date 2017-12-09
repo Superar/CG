@@ -127,4 +127,8 @@ public class GerenciadorInterface {
         glfwGetWindowSize(window, width, height);
         return height.get(0);
     }
+
+    public float getAspectRatio() {
+        return (float) getWindowWidth() / getWindowHeight();
+    }
 }

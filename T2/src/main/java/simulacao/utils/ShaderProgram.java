@@ -19,11 +19,14 @@ public class ShaderProgram {
 
     private final Map<String, Integer> uniforms;
 
-    public ShaderProgram() throws RuntimeException {
+    public ShaderProgram(String vertexShader, String fragmentShader) throws RuntimeException {
         programId = glCreateProgram();
         if (programId == 0) {
             throw new RuntimeException("Falha na criação do shader");
         }
+        vertexShaderId = createShader(loadResource(vertexShader), GL_VERTEX_SHADER);
+        fragmentShaderId = createShader(loadResource(fragmentShader), GL_FRAGMENT_SHADER);
+        link();
 
         uniforms = new HashMap<>();
     }
@@ -38,14 +41,6 @@ public class ShaderProgram {
             e.printStackTrace();
         }
         return result;
-    }
-
-    public void createVertexShader(String shader) throws RuntimeException {
-        vertexShaderId = createShader(loadResource(shader), GL_VERTEX_SHADER);
-    }
-
-    public void createFragmentShader(String shader) throws RuntimeException {
-        fragmentShaderId = createShader(loadResource(shader), GL_FRAGMENT_SHADER);
     }
 
     private int createShader(String shader, int shaderType) throws RuntimeException {
@@ -66,21 +61,23 @@ public class ShaderProgram {
         return shaderId;
     }
 
-    public void createUniform(String uniformName, Matrix4f value) throws RuntimeException {
+    public void createUniform(String uniformName) throws RuntimeException {
         int uniformLocation = glGetUniformLocation(programId, uniformName);
         if (uniformLocation < 0) {
             throw new RuntimeException("uniform não encontrado:" + uniformName);
         }
         uniforms.put(uniformName, uniformLocation);
+    }
 
+    public void setUniform(String uniformName, Matrix4f value) {
         try (MemoryStack stack = MemoryStack.stackPush()) {
             FloatBuffer fb = stack.mallocFloat(16);
             value.get(fb);
-            glUniformMatrix4fv(uniformLocation, false, fb);
+            glUniformMatrix4fv(uniforms.get(uniformName), false, fb);
         }
     }
 
-    public void link() throws RuntimeException {
+    private void link() throws RuntimeException {
         glLinkProgram(programId);
         if (glGetProgrami(programId, GL_LINK_STATUS) == 0) {
             throw new RuntimeException("Falha no link do codigo do shader: " + glGetProgramInfoLog(programId, 1024));
@@ -97,21 +94,13 @@ public class ShaderProgram {
         if (glGetProgrami(programId, GL_VALIDATE_STATUS) == 0) {
             System.err.println("Warning validating Shader code: " + glGetProgramInfoLog(programId, 1024));
         }
-
     }
 
-    void bind() {
+    public void bind() {
         glUseProgram(programId);
     }
 
-    void unbind() {
+     public void unbind() {
         glUseProgram(0);
-    }
-
-    public void cleanup() {
-        unbind();
-        if (programId != 0) {
-            glDeleteProgram(programId);
-        }
     }
 }

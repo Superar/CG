@@ -1,12 +1,9 @@
 package simulacao;
 
-import org.joml.Matrix4f;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import simulacao.utils.GerenciadorInterface;
-import simulacao.utils.Modelo;
-import simulacao.utils.ShaderProgram;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
@@ -26,9 +23,6 @@ public class simulacao3D {
     private static final float BG_COLOR_B = 0.0f;
 
     private static GerenciadorInterface INTERFACE;
-    private ShaderProgram SHADER;
-
-    Matrix4f perspectiveMatrix;
 
     private void init() {
         GLFWErrorCallback.createPrint(System.err).set();
@@ -61,25 +55,17 @@ public class simulacao3D {
         GL.createCapabilities();
         glClearColor(BG_COLOR_R, BG_COLOR_G, BG_COLOR_B, 0.0f);
 
-        SHADER = new ShaderProgram();
-        SHADER.createVertexShader("/vertex.vs");
-        SHADER.createFragmentShader("/fragment.fs");
-        SHADER.link();
-
-        Modelo modelo3d = new Modelo(INTERFACE);
+        Cena cena = new Cena(INTERFACE);
+        Modelo[] modelos = new Modelo[]{ new Modelo() };
 
         float ang = 0.0f;
 
         while (!glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            modelo3d.render(SHADER);
-            modelo3d.rotaciona(modelo3d.rotacao.x,
-                    modelo3d.rotacao.y,
-                    modelo3d.rotacao.z + ang);
-
-            ang += 0.0025f;
-
+            cena.render(modelos);
+            modelos[0].rotaciona(0, 0, ang);
+            ang += 0.05;
             glfwSwapBuffers(window);
             glfwPollEvents();
         }
@@ -88,8 +74,6 @@ public class simulacao3D {
     private void run() {
         init();
         loop();
-
-        SHADER.cleanup();
 
         // Destruicao da janela
         glfwFreeCallbacks(window);

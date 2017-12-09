@@ -1,10 +1,10 @@
-package simulacao.utils;
+package simulacao;
 
 import org.joml.Vector3f;
 
 public class Camera {
     public Vector3f posicao;
-    public Vector3f rotacao;
+    private Vector3f rotacao;
 
     Camera() {
         posicao = new Vector3f(0, 0, 0);
