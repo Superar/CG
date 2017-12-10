@@ -34,8 +34,10 @@ public class Matrizes {
 
     public Matrix4f getViewMatrix(Camera camera, Modelo modelo) {
         return viewMatrix.identity().
-                rotate((float)Math.toRadians(modelo.rotacao.x), new Vector3f(1, 0, 0)).
-                rotate((float)Math.toRadians(modelo.rotacao.y), new Vector3f(0, 1, 0)).
-                translate(-camera.posicao.x, -camera.posicao.y, -camera.posicao.z);
+                rotateX((float)Math.toRadians(modelo.rotacao.x)).
+                rotateY((float)Math.toRadians(modelo.rotacao.y)).
+                translate(-camera.posicao.x, -camera.posicao.y, -camera.posicao.z).
+                rotateX((float)Math.toRadians(camera.rotacao.x)).
+                rotateY((float)Math.toRadians(camera.rotacao.y));
     }
 }

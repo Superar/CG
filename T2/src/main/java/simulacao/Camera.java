@@ -4,10 +4,10 @@ import org.joml.Vector3f;
 
 public class Camera {
     public Vector3f posicao;
-    private Vector3f rotacao;
+    public Vector3f rotacao;
 
     Camera() {
-        posicao = new Vector3f(0, 0, 0);
+        posicao = new Vector3f(0, 0, 250);
         rotacao = new Vector3f(0, 0, 0);
     }
 

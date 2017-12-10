@@ -20,7 +20,7 @@ class Cena {
     private static ShaderProgram SHADER;
     private static Matrizes MATRIZES;
 
-    private Camera camera;
+    public Camera camera;
 
     Cena(GerenciadorInterface gerenciadorInterface) {
         SHADER = new ShaderProgram("/vertex.vs", "/fragment.fs");

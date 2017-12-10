@@ -4,6 +4,7 @@ import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import simulacao.utils.GerenciadorInterface;
+import simulacao.utils.OBJloader;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
@@ -56,7 +57,8 @@ public class simulacao3D {
         glClearColor(BG_COLOR_R, BG_COLOR_G, BG_COLOR_B, 0.0f);
 
         Cena cena = new Cena(INTERFACE);
-        Modelo[] modelos = new Modelo[]{ new Modelo() };
+        OBJloader loader = new OBJloader("/teapot.obj");
+        Modelo[] modelos = new Modelo[]{ loader.model };
 
         float ang = 0.0f;
 
@@ -64,7 +66,7 @@ public class simulacao3D {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             cena.render(modelos);
-            modelos[0].rotaciona(0, 0, ang);
+            cena.camera.rotacionar(0, ang, 0);
             ang += 0.05;
             glfwSwapBuffers(window);
             glfwPollEvents();

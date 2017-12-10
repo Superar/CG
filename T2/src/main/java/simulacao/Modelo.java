@@ -11,8 +11,12 @@ public class Modelo {
     public float escala;
     public final Vector3f rotacao;
 
+    private float[] vertices;
+    private int[] indices;
+    private float[] colours;
+
     Modelo() {
-        float[] vertices = new float[]{
+        vertices = new float[]{
                 // Face traseira
                 -0.5f, 0.5f, -2.0f,
                 -0.5f, -0.5f, -2.0f,
@@ -25,13 +29,13 @@ public class Modelo {
                 0.5f, -0.5f, -1.5f,
                 0.5f, 0.5f, -1.5f,
         };
-        int[] indices = new int[]{
+        indices = new int[]{
                 // Face traseira
                 0, 1, 3, 3, 1, 2,
                 // Face frontal
                 4, 5, 7, 7, 5, 6,
         };
-        float[] colours = new float[]{
+        colours = new float[]{
                 // Face traseira
                 0.5f, 0.0f, 0.0f,
                 0.5f, 0.0f, 0.0f,
@@ -45,6 +49,18 @@ public class Modelo {
                 0.0f, 0.5f, 0.0f,
         };
         shaderSetup = new ShaderSetup(vertices, indices, colours);
+
+        posicao = new Vector3f(0, 0, 0);
+        escala = 1.0f;
+        rotacao = new Vector3f(0, 0, 0);
+    }
+
+    public Modelo(float[] vertices, int[] indices, float[] colours) {
+        this.vertices = vertices;
+        this.indices = indices;
+        this.colours = colours;
+
+        shaderSetup = new ShaderSetup(this.vertices, this.indices, this.colours);
 
         posicao = new Vector3f(0, 0, 0);
         escala = 1.0f;
