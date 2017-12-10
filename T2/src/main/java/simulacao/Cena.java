@@ -5,6 +5,7 @@ import simulacao.utils.GerenciadorInterface;
 import simulacao.utils.Matrizes;
 import simulacao.utils.ShaderProgram;
 
+import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
 import static org.lwjgl.opengl.GL11.GL_UNSIGNED_INT;
 import static org.lwjgl.opengl.GL11.glDrawElements;
@@ -17,14 +18,16 @@ class Cena {
     private static final float ZNEAR = 0.01f;
     private static final float ZFAR = 1000.f;
 
+    private static GerenciadorInterface INTERFACE;
     private static ShaderProgram SHADER;
     private static Matrizes MATRIZES;
 
-    public Camera camera;
+    private Camera camera;
 
     Cena(GerenciadorInterface gerenciadorInterface) {
+        INTERFACE = gerenciadorInterface;
         SHADER = new ShaderProgram("/vertex.vs", "/fragment.fs");
-        MATRIZES = new Matrizes(gerenciadorInterface);
+        MATRIZES = new Matrizes(INTERFACE);
 
         camera = new Camera();
 
@@ -34,6 +37,7 @@ class Cena {
     }
 
     void render(Modelo[] modelos) {
+        checkInterface();
         SHADER.bind();
         Matrix4f projectionMatrix = MATRIZES.getProjectionMatrix(FOV, ZNEAR, ZFAR);
         SHADER.setUniform("projectionMatrix", projectionMatrix);
@@ -53,5 +57,36 @@ class Cena {
             glBindVertexArray(0);
         }
         SHADER.unbind();
+    }
+
+    private void checkInterface() {
+        if (INTERFACE.acao == GerenciadorInterface.Acao.TECLADO_PRESS) {
+            switch (INTERFACE.key_pressed) {
+                case GLFW_KEY_LEFT:
+                    camera.rotacionar(0, 5, 0);
+                    break;
+                case GLFW_KEY_RIGHT:
+                    camera.rotacionar(0, -5, 0);
+                    break;
+                case GLFW_KEY_UP:
+                    camera.rotacionar(5, 0, 0);
+                    break;
+                case GLFW_KEY_DOWN:
+                    camera.rotacionar(-5, 0, 0);
+                    break;
+                case GLFW_KEY_W:
+                    camera.mover(0, -5f, 0);
+                    break;
+                case GLFW_KEY_A:
+                    camera.mover(5f, 0, 0);
+                    break;
+                case GLFW_KEY_S:
+                    camera.mover(0, 5f, 0);
+                    break;
+                case GLFW_KEY_D:
+                    camera.mover(-5, 0, 0);
+            }
+        }
+        INTERFACE.limpaAcao();
     }
 }

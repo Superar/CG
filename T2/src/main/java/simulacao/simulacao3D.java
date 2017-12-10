@@ -60,14 +60,11 @@ public class simulacao3D {
         OBJloader loader = new OBJloader("/teapot.obj");
         Modelo[] modelos = new Modelo[]{ loader.model };
 
-        float ang = 0.0f;
-
         while (!glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             cena.render(modelos);
-            cena.camera.rotacionar(0, ang, 0);
-            ang += 0.05;
+
             glfwSwapBuffers(window);
             glfwPollEvents();
         }
