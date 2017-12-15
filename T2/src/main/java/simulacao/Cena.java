@@ -1,5 +1,7 @@
 package simulacao;
 
+import java.util.ArrayList;
+
 import org.joml.Matrix4f;
 import simulacao.utils.GerenciadorInterface;
 import simulacao.utils.Matrizes;
@@ -36,7 +38,7 @@ class Cena {
         SHADER.createUniform("worldMatrix");
     }
 
-    void render(Modelo[] modelos) {
+    void render(ArrayList<Modelo> modelos) {
         checkInterface();
         SHADER.bind();
         Matrix4f projectionMatrix = MATRIZES.getProjectionMatrix(FOV, ZNEAR, ZFAR);

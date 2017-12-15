@@ -1,9 +1,14 @@
 package simulacao;
 
+import java.util.HashMap;
+
+import com.mokiat.data.front.parser.MTLMaterial;
 import org.joml.Vector3f;
 import simulacao.utils.ShaderSetup;
 
 public class Modelo {
+
+    public static final HashMap<String, MTLMaterial> materiais = new HashMap<>();
 
     ShaderSetup shaderSetup;
 

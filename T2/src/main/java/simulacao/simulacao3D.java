@@ -1,5 +1,7 @@
 package simulacao;
 
+import java.util.ArrayList;
+
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
@@ -57,8 +59,8 @@ public class simulacao3D {
         glClearColor(BG_COLOR_R, BG_COLOR_G, BG_COLOR_B, 0.0f);
 
         Cena cena = new Cena(INTERFACE);
-        OBJloader loader = new OBJloader("/teapot.obj");
-        Modelo[] modelos = new Modelo[]{ loader.model };
+
+        ArrayList<Modelo> modelos = OBJloader.parseObjFile("/island/", "low-poly-mill");
 
         while (!glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

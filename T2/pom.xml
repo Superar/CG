@@ -99,9 +99,20 @@
             <artifactId>org.apache.commons.io</artifactId>
             <version>${io.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.mokiat</groupId>
+            <artifactId>java-data-front</artifactId>
+            <version>v2.0.0</version>
+        </dependency>
     </dependencies>
 
     <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+
         <repository>
             <id>sonatype-snapshots</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
