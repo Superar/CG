@@ -1,6 +1,7 @@
 package simulacao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
@@ -57,15 +58,16 @@ public class simulacao3D {
     private void loop() {
         GL.createCapabilities();
         glClearColor(BG_COLOR_R, BG_COLOR_G, BG_COLOR_B, 0.0f);
+        glEnable(GL_DEPTH_TEST);
 
         Cena cena = new Cena(INTERFACE);
 
-        ArrayList<Modelo> modelos = OBJloader.parseObjFile("/island/", "low-poly-mill");
+        HashMap<String, Modelo> modelos = OBJloader.parseObjFile("/island/", "low-poly-mill");
 
         while (!glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            cena.render(modelos);
+            cena.render(new ArrayList<>(modelos.values()));
 
             glfwSwapBuffers(window);
             glfwPollEvents();

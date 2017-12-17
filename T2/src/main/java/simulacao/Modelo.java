@@ -6,17 +6,19 @@ import com.mokiat.data.front.parser.MTLMaterial;
 import org.joml.Vector3f;
 import simulacao.utils.ShaderSetup;
 
+import static org.lwjgl.opengl.GL11.*;
+
 public class Modelo {
 
     public static final HashMap<String, MTLMaterial> materiais = new HashMap<>();
 
     ShaderSetup shaderSetup;
 
-    private final Vector3f posicao;
+    public final Vector3f posicao;
     public float escala;
     public final Vector3f rotacao;
 
-    private float[] vertices;
+    public float[] vertices;
     private int[] indices;
     private float[] colours;
 

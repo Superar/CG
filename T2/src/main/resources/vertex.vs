@@ -7,7 +7,7 @@ uniform mat4 viewMatrix;
 attribute vec3 position;
 attribute vec3 inColour;
 
-out vec3 exColour;
+flat out vec3 exColour;
 
 void main()
 {

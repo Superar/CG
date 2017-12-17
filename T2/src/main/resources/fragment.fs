@@ -1,6 +1,6 @@
 #version 130
 
-in vec3 exColour;
+flat in vec3 exColour;
 
 void main()
 {

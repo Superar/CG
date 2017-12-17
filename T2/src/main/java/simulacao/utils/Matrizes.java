@@ -26,6 +26,7 @@ public class Matrizes {
 
     public Matrix4f getWorldMatrix(Modelo modelo) {
         return worldMatrix.identity().
+                translate(modelo.posicao).
                 rotateX((float) Math.toRadians(modelo.rotacao.x)).
                 rotateY((float) Math.toRadians(modelo.rotacao.y)).
                 rotateZ((float) Math.toRadians(modelo.rotacao.z)).
