@@ -3,6 +3,8 @@ package simulacao;
 import java.util.ArrayList;
 
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 import simulacao.utils.GerenciadorInterface;
 import simulacao.utils.Matrizes;
 import simulacao.utils.ShaderProgram;
@@ -25,30 +27,72 @@ class Cena {
     private static Matrizes MATRIZES;
 
     private Camera camera;
+    private PointLight pointLight;
+    private Vector3f ambientLight;
+
+    private final float specularPower;
+
 
     Cena(GerenciadorInterface gerenciadorInterface) {
+        specularPower = 10f;
         INTERFACE = gerenciadorInterface;
         SHADER = new ShaderProgram("/vertex.vs", "/fragment.fs");
         MATRIZES = new Matrizes(INTERFACE);
 
         camera = new Camera();
 
+        pointLight = new PointLight(new Vector3f(1, 1, 1), new Vector3f(100, 100, 100), 0.5f);
+        ambientLight = new Vector3f(1,1,1);
+
         SHADER.createUniform("projectionMatrix");
-        SHADER.createUniform("viewMatrix");
-        SHADER.createUniform("worldMatrix");
+//        SHADER.createUniform("viewMatrix");
+//        SHADER.createUniform("worldMatrix");
+
+        try {
+            // Create uniforms for modelView and projection matrices and texture
+            SHADER.createUniform("modelViewMatrix");
+            // Create uniform for material
+            SHADER.createMaterialUniform("material");
+            // Create lighting related uniforms
+            SHADER.createUniform("specularPower");
+            SHADER.createUniform("ambientLight");
+            SHADER.createPointLightUniform("pointLight");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     void render(ArrayList<Modelo> modelos) {
         checkInterface();
         SHADER.bind();
         Matrix4f projectionMatrix = MATRIZES.getProjectionMatrix(FOV, ZNEAR, ZFAR);
+
         SHADER.setUniform("projectionMatrix", projectionMatrix);
 
+        // Update view Matrix
+        Matrix4f viewMatrix = MATRIZES.getViewMatrix(camera);
+
+        // Update Light Uniforms
+        SHADER.setUniform("ambientLight", ambientLight);
+        SHADER.setUniform("specularPower", specularPower);
+
+        PointLight currPointLight = new PointLight(pointLight);
+        Vector3f lightPos = currPointLight.getPosition();
+        Vector4f aux = new Vector4f(lightPos, 1);
+        aux.mul(viewMatrix);
+
+        lightPos.x = aux.x;
+        lightPos.y = aux.y;
+        lightPos.z = aux.z;
+
+        SHADER.setUniform("pointLight", currPointLight);
+
         for (Modelo modelo : modelos) {
-            Matrix4f viewMatrix = MATRIZES.getViewMatrix(camera, modelo);
-            SHADER.setUniform("viewMatrix", viewMatrix);
-            Matrix4f worldMatrix = MATRIZES.getWorldMatrix(modelo);
-            SHADER.setUniform("worldMatrix", worldMatrix);
+            Matrix4f modelViewMatrix = MATRIZES.getModelViewMatrix(camera, modelo);
+            SHADER.setUniform("modelViewMatrix", modelViewMatrix);
+
+//            Matrix4f worldMatrix = MATRIZES.getWorldMatrix(modelo);
+//            SHADER.setUniform("worldMatrix", worldMatrix);
 
             glBindVertexArray(modelo.shaderSetup.getVaoId());
             glEnableVertexAttribArray(0);
@@ -89,6 +133,7 @@ class Cena {
                     camera.mover(-5, 0, 0);
             }
         }
+
         INTERFACE.limpaAcao();
     }
 }

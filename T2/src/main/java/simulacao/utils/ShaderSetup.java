@@ -18,7 +18,7 @@ public class ShaderSetup {
 
     private final int vertexCount;
 
-    public ShaderSetup(float[] positions, int[] indices, float[] colours) {
+    public ShaderSetup(float[] positions, float[] normals, int[] indices, float[] colours) {
         FloatBuffer verticesBuffer = null;
         IntBuffer indicesBuffer = null;
         FloatBuffer coloursBuffer = null;
@@ -43,6 +43,14 @@ public class ShaderSetup {
             int idxVboId = glGenBuffers();
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxVboId);
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesBuffer, GL_STATIC_DRAW);
+
+            // Vertex normals VBO
+            int normalvboId = glGenBuffers();
+            FloatBuffer vecNormalsBuffer = MemoryUtil.memAllocFloat(normals.length);
+            vecNormalsBuffer.put(normals).flip();
+            glBindBuffer(GL_ARRAY_BUFFER, vboId);
+            glBufferData(GL_ARRAY_BUFFER, vecNormalsBuffer, GL_STATIC_DRAW);
+            glVertexAttribPointer(2, 3, GL_FLOAT, false, 0, 0);
 
             int coloursVboId = glGenBuffers();
             glBindBuffer(GL_ARRAY_BUFFER, coloursVboId);
