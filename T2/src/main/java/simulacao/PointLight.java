@@ -2,7 +2,7 @@ package simulacao;
 
 import org.joml.Vector3f;
 
-public class PointLight {
+public class    PointLight {
 
     private Vector3f color;
 

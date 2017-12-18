@@ -1,10 +1,10 @@
 package simulacao;
 
-import java.util.HashMap;
-
 import com.mokiat.data.front.parser.MTLMaterial;
 import org.joml.Vector3f;
 import simulacao.utils.ShaderSetup;
+
+import java.util.HashMap;
 
 public class Modelo {
 
@@ -19,8 +19,21 @@ public class Modelo {
     private float[] vertices;
     private int[] indices;
     private float[] colours;
+    private float[] normals;
 
     Modelo() {
+        normals = new float[]{
+                -0.5f, 0.5f, -2.0f,
+                -0.5f, -0.5f, -2.0f,
+                0.5f, -0.5f, -2.0f,
+                0.5f, 0.5f, -2.0f,
+
+                // Face frontal
+                -0.5f, 0.5f, -1.5f,
+                -0.5f, -0.5f, -1.5f,
+                0.5f, -0.5f, -1.5f,
+                0.5f, 0.5f, -1.5f,
+        };
         vertices = new float[]{
                 // Face traseira
                 -0.5f, 0.5f, -2.0f,
@@ -53,19 +66,22 @@ public class Modelo {
                 0.0f, 0.5f, 0.0f,
                 0.0f, 0.5f, 0.0f,
         };
-        shaderSetup = new ShaderSetup(vertices, indices, colours);
+
+
+        shaderSetup = new ShaderSetup(vertices,normals, indices, colours);
 
         posicao = new Vector3f(0, 0, 0);
         escala = 1.0f;
         rotacao = new Vector3f(0, 0, 0);
     }
 
-    public Modelo(float[] vertices, int[] indices, float[] colours) {
+    public Modelo(float[] vertices, float[] normals, int[] indices, float[] colours) {
         this.vertices = vertices;
         this.indices = indices;
         this.colours = colours;
+        this.normals = normals;
 
-        shaderSetup = new ShaderSetup(this.vertices, this.indices, this.colours);
+        shaderSetup = new ShaderSetup(this.vertices, this.normals, this.indices, this.colours);
 
         posicao = new Vector3f(0, 0, 0);
         escala = 1.0f;

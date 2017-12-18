@@ -43,6 +43,7 @@ public class OBJloader {
 
             ArrayList<Float> vertices = new ArrayList<>();
             ArrayList<Integer> indices = new ArrayList<>();
+            ArrayList<Float> vn = new ArrayList<>();
 
             ArrayList<Float> cores = new ArrayList<>();
 
@@ -60,6 +61,10 @@ public class OBJloader {
                         vertices.add(Float.valueOf(tokens[1]));
                         vertices.add(Float.valueOf(tokens[2]));
                         vertices.add(Float.valueOf(tokens[3]));
+                    }else if(line.startsWith("vn ")){
+                        vn.add(Float.valueOf(line.split(" ")[1]));
+                        vn.add(Float.valueOf(line.split(" ")[2]));
+                        vn.add(Float.valueOf(line.split(" ")[3]));
 
                     } else if (tokens[0].equals("usemtl")) {
                         current_material = tokens[1];
@@ -82,7 +87,7 @@ public class OBJloader {
                 }
             }
 
-            return createModel(vertices, indices, cores);
+            return createModel(vertices,vn, indices, cores);
 
         } catch (Exception e){
             e.printStackTrace();
@@ -91,11 +96,12 @@ public class OBJloader {
 
     }
 
-    private static ArrayList<Modelo> createModel(ArrayList<Float> vertices, ArrayList<Integer> indices, ArrayList<Float> cores) {
+    private static ArrayList<Modelo> createModel(ArrayList<Float> vertices, ArrayList<Float> normals,  ArrayList<Integer> indices, ArrayList<Float> cores) {
 
         ArrayList<Modelo> modelos = new ArrayList<>();
 
         float[] verticesArray = new float[vertices.size()];
+        float[] normalsArray = new float[normals.size()];
         int[] indicesArray = new int[indices.size()];
         int i = 0;
 
@@ -118,7 +124,7 @@ public class OBJloader {
             colours[i++] = f;
         }
 
-        modelos.add(new Modelo(verticesArray, indicesArray, colours));
+        modelos.add(new Modelo(verticesArray, normalsArray, indicesArray, colours));
 
         return modelos;
     }
